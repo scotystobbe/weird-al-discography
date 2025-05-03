@@ -18,17 +18,7 @@ export default function SongDialog({ track, large = false, onToggleLarge }: Song
   const [showFeatured, setShowFeatured] = useState(false);
 
   return (
-    <div className={`p-6 text-left space-y-2 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl transition-all ${large ? 'text-3xl p-12' : ''}`}>
-      {/* Large mode toggle button */}
-      {onToggleLarge && (
-        <button
-          onClick={onToggleLarge}
-          className={`absolute top-2 left-3 z-20 px-4 py-2 rounded-lg font-bold shadow-lg border border-gray-300 dark:border-gray-700 bg-blue-600 text-white hover:bg-blue-700 transition text-base ${large ? 'scale-125' : ''}`}
-          aria-label={large ? 'Show Smaller' : 'Show Larger'}
-        >
-          {large ? 'Show Smaller' : 'Show Larger'}
-        </button>
-      )}
+    <div className={`p-6 text-left bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl transition-all ${large ? 'text-3xl p-12' : ''} ${large ? 'space-y-8' : 'space-y-2'} relative`}>
       <h3 className="text-xl font-bold">{track.title}</h3>
       <p><strong>Type:</strong> {track.type}</p>
       {track.originalSong && (
@@ -56,22 +46,36 @@ export default function SongDialog({ track, large = false, onToggleLarge }: Song
         </div>
       )}
 
-      {/* ✅ Add Search Lyrics Button */}
-      <div className="pt-4">
+      {/* Search Lyrics Button: only show if not large */}
+      {!large && (
+        <div className="pt-4">
+          <button
+            onClick={() =>
+              window.open(
+                `https://www.google.com/search?q=${encodeURIComponent(
+                  `Weird Al Yankovic ${track.title} lyrics`
+                )}`,
+                "_blank"
+              )
+            }
+            className="px-4 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition"
+          >
+            Search Lyrics
+          </button>
+        </div>
+      )}
+
+      {/* Large mode toggle button with A icons in bottom right */}
+      {onToggleLarge && (
         <button
-          onClick={() =>
-            window.open(
-              `https://www.google.com/search?q=${encodeURIComponent(
-                `Weird Al Yankovic ${track.title} lyrics`
-              )}`,
-              "_blank"
-            )
-          }
-          className={`px-4 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition ${large ? 'text-2xl px-8 py-4' : ''}`}
+          onClick={onToggleLarge}
+          className="absolute bottom-3 right-3 z-20 px-3 py-1 rounded-lg font-bold shadow border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition text-xl flex items-center gap-1"
+          aria-label={large ? 'Show Smaller' : 'Show Larger'}
         >
-          Search Lyrics
+          <span className={`${large ? 'opacity-50' : 'opacity-100'} transition`}>A</span>
+          <span className={`text-2xl ${large ? 'opacity-100' : 'opacity-50'} transition`}>A</span>
         </button>
-      </div>
+      )}
     </div>
   );
 }
