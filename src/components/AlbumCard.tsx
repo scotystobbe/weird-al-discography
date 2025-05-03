@@ -117,7 +117,7 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
       {/* Dialog for song details, only if expanded */}
       {expanded && selectedTrack && (
         <Dialog>
-          <DialogContent className="relative">
+          <DialogContent className="relative" onClose={() => setSelectedTrack(null)}>
             {/* Close button */}
             <button
               onClick={() => setSelectedTrack(null)}
