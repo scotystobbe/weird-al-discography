@@ -25,7 +25,7 @@ export function useNowPlaying(token: string | null) {
       setError(null);
       try {
         const res = await fetchSpotifyApi(
-          "https://api.spotify.com/v1/me/player/currently-playing",
+          "https://api.spotify.com/v1/me/player",
           token,
           () => {
             // Automatically re-authenticate if refresh fails
@@ -39,6 +39,11 @@ export function useNowPlaying(token: string | null) {
         } else if (res.ok) {
           const data = await res.json();
           const item = data.item;
+
+          if (!item) {
+            setTrack(null);
+            return;
+          }
 
           const title = item.name;
           const artist = item.artists.map((a: any) => a.name).join(", ");
