@@ -1,5 +1,7 @@
 // src/components/PlaybackControls.tsx
 import React, { useEffect, useState } from "react";
+import { fetchSpotifyApi } from "../lib/spotifyAuth";
+import { useSpotifyAuth } from "../hooks/useSpotifyAuth";
 
 interface PlaybackControlsProps {
   token: string;
@@ -7,25 +9,38 @@ interface PlaybackControlsProps {
 
 export default function PlaybackControls({ token }: PlaybackControlsProps) {
   const [isPlaying, setIsPlaying] = useState<boolean | null>(null);
+  const { login } = useSpotifyAuth();
 
   const sendCommand = async (endpoint: string, method = "POST") => {
-    await fetch(`https://api.spotify.com/v1/me/player/${endpoint}`, {
-      method,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (endpoint === "play") setIsPlaying(true);
-    if (endpoint === "pause") setIsPlaying(false);
+    try {
+      await fetchSpotifyApi(
+        `https://api.spotify.com/v1/me/player/${endpoint}`,
+        token,
+        () => {
+          if (window.confirm("Spotify session expired. Re-authenticate?")) {
+            login();
+          }
+        },
+        { method }
+      );
+      if (endpoint === "play") setIsPlaying(true);
+      if (endpoint === "pause") setIsPlaying(false);
+    } catch (err) {
+      // Optionally handle error
+    }
   };
 
   const fetchPlaybackState = async () => {
     try {
-      const res = await fetch("https://api.spotify.com/v1/me/player", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetchSpotifyApi(
+        "https://api.spotify.com/v1/me/player",
+        token,
+        () => {
+          if (window.confirm("Spotify session expired. Re-authenticate?")) {
+            login();
+          }
+        }
+      );
       if (res.ok) {
         const data = await res.json();
         setIsPlaying(data.is_playing);

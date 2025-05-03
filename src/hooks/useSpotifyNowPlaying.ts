@@ -1,5 +1,7 @@
 // src/hooks/useNowPlaying.ts
 import { useEffect, useState } from "react";
+import { fetchSpotifyApi } from "../lib/spotifyAuth";
+import { useSpotifyAuth } from "./useSpotifyAuth";
 
 interface NowPlayingTrack {
   title: string;
@@ -13,6 +15,7 @@ export function useNowPlaying(token: string | null) {
   const [track, setTrack] = useState<NowPlayingTrack | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { login } = useSpotifyAuth();
 
   useEffect(() => {
     if (!token) return;
@@ -21,11 +24,15 @@ export function useNowPlaying(token: string | null) {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetchSpotifyApi(
+          "https://api.spotify.com/v1/me/player/currently-playing",
+          token,
+          () => {
+            if (window.confirm("Spotify session expired. Re-authenticate?")) {
+              login();
+            }
+          }
+        );
 
         if (res.status === 204) {
           setTrack(null); // nothing playing
