@@ -30,6 +30,10 @@ export default function PlaybackControls({ token }: PlaybackControlsProps) {
       );
       if (endpoint === "play") setIsPlaying(true);
       if (endpoint === "pause") setIsPlaying(false);
+      if (endpoint === "next" || endpoint === "previous") {
+        // Refresh playback state to get the new track
+        fetchPlaybackState();
+      }
     } catch (err) {
       // Optionally handle error
     }

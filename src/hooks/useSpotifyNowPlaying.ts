@@ -40,8 +40,14 @@ export function useNowPlaying(token: string | null) {
           const data = await res.json();
           const item = data.item;
 
+          // If item is missing but there is a device and context, keep the previous track
           if (!item) {
-            setTrack(null);
+            // If there are no devices or no context, clear track
+            if (!data.device || data.device === null) {
+              setTrack(null);
+              return;
+            }
+            // Otherwise, keep previous track (do not set to null)
             return;
           }
 

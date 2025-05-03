@@ -15,15 +15,21 @@ export default function NowPlaying() {
 
   return (
     <div className="flex items-center justify-between mb-4 p-3 border rounded-lg shadow-sm bg-white dark:bg-gray-800">
-      <div className="flex items-center">
-        <img src={track.albumArt} alt={track.album} className="w-16 h-16 mr-4 rounded" />
-        <div>
-          <p className="text-lg font-semibold">{track.title}</p>
+      <div className="flex items-center min-w-0 flex-1">
+        <img src={track.albumArt} alt={track.album} className="w-16 h-16 mr-4 rounded shrink-0" />
+        <div className="min-w-0">
+          <p className="text-base font-semibold truncate max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl" title={track.title}>
+            {track.title}
+          </p>
           {/* <p className="text-sm text-gray-600 dark:text-gray-300">{track.artist}</p> */}
-          <p className="text-sm text-gray-600 dark:text-gray-300">{track.album}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-300 truncate max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl" title={track.album}>
+            {track.album}
+          </p>
         </div>
       </div>
-      <PlaybackControls token={token} />
+      <div className="flex-shrink-0 ml-4">
+        <PlaybackControls token={token} />
+      </div>
     </div>
   );
 }
