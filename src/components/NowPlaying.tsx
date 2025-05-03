@@ -7,8 +7,6 @@ import PlaybackControls from "./PlaybackControls";
 export default function NowPlaying() {
   const { token } = useSpotifyAuth();
   const { track, loading, error } = useNowPlaying(token);
-  {token && <PlaybackControls token={token} />}
-
 
   if (!token) return null;
   if (loading) return <p className="text-sm text-gray-500 mb-4">Fetching now playing...</p>;
@@ -20,9 +18,13 @@ export default function NowPlaying() {
       <img src={track.albumArt} alt={track.album} className="w-16 h-16 mr-4 rounded" />
       <div>
         <p className="text-lg font-semibold">{track.title}</p>
-        <p className="text-sm text-gray-600 dark:text-gray-300">{track.artist}</p>
-        <p className="text-xs text-gray-400 dark:text-gray-500 italic">{track.album}</p>
+        {/* <p className="text-sm text-gray-600 dark:text-gray-300">{track.artist}</p> */}
+        <p className="text-sm text-gray-600 dark:text-gray-300">{track.album}</p>
+
+        {/* ✅ Add playback controls here */}
+        <PlaybackControls token={token} />
       </div>
     </div>
   );
 }
+
