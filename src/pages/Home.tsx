@@ -105,33 +105,6 @@ export default function Home() {
       </h1>
 
       <SpotifyStatus />
-      <div className="flex items-center mb-4">
-        <NowPlaying />
-        <div className="ml-4 flex items-center">
-          {/* Slide toggle with magnifying glass icon */}
-          <button
-            type="button"
-            onClick={handleToggle}
-            aria-pressed={useSpotifySearch}
-            title="Toggle using Spotify track as search"
-            className="relative w-14 h-8 flex items-center focus:outline-none"
-          >
-            {/* Track */}
-            <span className={`absolute left-0 top-0 w-full h-full rounded-full transition-colors duration-200 ${useSpotifySearch ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-700'}`}></span>
-            {/* Thumb */}
-            <span
-              className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow-md flex items-center justify-center transition-transform duration-200 ${useSpotifySearch ? 'translate-x-6' : ''}`}
-            >
-              {/* Magnifying glass icon */}
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
-              </svg>
-            </span>
-            {/* Label (visually hidden for accessibility) */}
-            <span className="sr-only">Toggle Spotify search</span>
-          </button>
-        </div>
-      </div>
       <div className="relative mb-4 flex items-center">
         <div className="flex-1 relative">
           {/* Search icon inside input */}
@@ -159,6 +132,28 @@ export default function Home() {
               </svg>
             </button>
           )}
+        </div>
+        {/* Spotify toggle switch */}
+        <div className="ml-2 mr-2 flex items-center">
+          <button
+            type="button"
+            onClick={handleToggle}
+            aria-pressed={useSpotifySearch}
+            title="Toggle using Spotify track as search"
+            className="relative w-14 h-8 flex items-center focus:outline-none"
+          >
+            {/* Track */}
+            <span className={`absolute left-0 top-0 w-full h-full rounded-full transition-colors duration-200 ${useSpotifySearch ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-700'}`}></span>
+            {/* Thumb */}
+            <span
+              className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow-md flex items-center justify-center transition-transform duration-200 ${useSpotifySearch ? 'translate-x-6' : ''}`}
+            >
+              {/* Spotify icon */}
+              <img src="/spotify_icon.svg" alt="Spotify" className="h-5 w-5" />
+            </span>
+            {/* Label (visually hidden for accessibility) */}
+            <span className="sr-only">Toggle Spotify search</span>
+          </button>
         </div>
         <button
           type="button"
