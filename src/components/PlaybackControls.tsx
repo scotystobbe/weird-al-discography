@@ -21,6 +21,7 @@ export default function PlaybackControls({ token }: PlaybackControlsProps) {
             login();
           }
         },
+        null,
         { method }
       );
       if (endpoint === "play") setIsPlaying(true);

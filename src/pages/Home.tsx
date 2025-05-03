@@ -6,8 +6,27 @@ import SpotifyStatus from "../components/SpotifyStatus";
 import NowPlaying from "../components/NowPlaying";
 import { useNowPlaying } from "../hooks/useSpotifyNowPlaying";
 import { useSpotifyAuth } from "../hooks/useSpotifyAuth";
+import Fuse from "fuse.js";
 
+// Utility to normalize titles for flexible search
+function normalizeTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, "") // Remove parentheticals
+    .replace(/[^a-z0-9\s]/gi, "") // Remove punctuation
+    .replace(/\s+/g, " ") // Collapse whitespace
+    .trim();
+}
 
+// Type for track with optional searchAliases
+interface Track {
+  title: string;
+  type: string;
+  originalSong?: string;
+  originalArtist?: string;
+  searchAliases?: string[];
+  [key: string]: any;
+}
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,13 +44,28 @@ export default function Home() {
     }
   }, [track]);
 
+  // Fuzzy search setup
+  const fuse = new Fuse(albumsData.albums, {
+    keys: [
+      "title",
+      "tracks.title",
+      "tracks.searchAliases",
+      "tracks.originalSong"
+    ],
+    threshold: 0.4,
+    includeMatches: true,
+    minMatchCharLength: 2,
+  });
 
-  let filteredAlbums = albumsData.albums.filter(album =>
-    album.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    album.tracks.some(track =>
-      track.title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
+  let filteredAlbums = searchTerm
+    ? fuse.search(searchTerm).map(result => {
+        // Attach match info for UI hints
+        return {
+          ...result.item,
+          _matches: result.matches,
+        };
+      })
+    : albumsData.albums;
 
   // Sort albums
   filteredAlbums = [...filteredAlbums].sort((a, b) => {
@@ -112,7 +146,13 @@ export default function Home() {
       )}
       <div className="space-y-4">
         {filteredAlbums.map(album => (
-          <AlbumCard key={album.title} album={album} searchTerm={searchTerm} trackSort={trackSort} />
+          <AlbumCard
+            key={album.title}
+            album={album}
+            searchTerm={searchTerm}
+            trackSort={trackSort}
+            matchInfo={('_matches' in album) ? (album as any)._matches : undefined}
+          />
         ))}
       </div>
     </div>

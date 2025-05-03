@@ -141,7 +141,8 @@
           "title": "Theme from Rocky XIII (The Rye or the Kaiser)",
           "type": "Parody",
           "originalSong": "Eye of the Tiger",
-          "originalArtist": "Survivor"
+          "originalArtist": "Survivor",
+          "searchAliases": ["Theme from Rocky XIII - aka: The Rye or the Kaiser (Theme from Rocky XIII)"]
         },
         {
           "title": "Nature Trail to Hell",
@@ -309,7 +310,8 @@
           "title": "Fat",
           "type": "Parody",
           "originalSong": "Bad",
-          "originalArtist": "Michael Jackson"
+          "originalArtist": "Michael Jackson",
+          "searchAliases": ["Fat (Parody of 'Bad')", "Fat - Parody of Bad"]
         },
         {
           "title": "Stuck in a Closet with Vanna White",
@@ -372,7 +374,7 @@
       "cover": "/album-covers/uhf.jpg",
       "tracks": [
         {
-          "title": "Money for Nothing/Beverly Hillbillies*",
+          "title": "Money for Nothing / Beverly Hillbillies",
           "type": "Parody",
           "originalSong": "Money for Nothing",
           "originalArtist": "Dire Straits"
@@ -612,7 +614,8 @@
           "title": "Amish Paradise",
           "type": "Parody",
           "originalSong": "Gangsta's Paradise",
-          "originalArtist": "Coolio"
+          "originalArtist": "Coolio",
+          "searchAliases": ["Amish Paradise (Parody of \"Gangsta's Paradise\" by Coolio)"]
         },
         {
           "title": "Everything You Know Is Wrong",
@@ -623,7 +626,8 @@
           "title": "Cavity Search",
           "type": "Parody",
           "originalSong": "Hold Me, Thrill Me, Kiss Me, Kill Me",
-          "originalArtist": "U2"
+          "originalArtist": "U2",
+          "searchAliases": ["Cavity Search (Parody of \"Hold Me, Thrill Me, Kiss Me, Kill Me\" by U2)"]
         },
         {
           "title": "Callin' In Sick",
@@ -659,7 +663,8 @@
           "title": "Gump",
           "type": "Parody",
           "originalSong": "Lump",
-          "originalArtist": "The Presidents of the United States of America"
+          "originalArtist": "The Presidents of the United States of America",
+          "searchAliases": ["Gump (Parody of \"Lump\" by The Presidents of the United States of America)"]
         },
         {
           "title": "I'm So Sick of You",
@@ -670,7 +675,8 @@
           "title": "Syndicated Inc.",
           "type": "Parody",
           "originalSong": "Misery",
-          "originalArtist": "Soul Asylum"
+          "originalArtist": "Soul Asylum",
+          "searchAliases": ["Syndicated Inc. (Parody of \"Misery\" by Soul Asylum)"]
         },
         {
           "title": "I Remember Larry",
@@ -681,7 +687,8 @@
           "title": "Phony Calls",
           "type": "Parody",
           "originalSong": "Waterfalls",
-          "originalArtist": "TLC"
+          "originalArtist": "TLC",
+          "searchAliases": ["Phony Calls (Parody of \"Waterfalls\" by TLC)"]
         },
         {
           "title": "The Night Santa Went Crazy",
@@ -699,7 +706,8 @@
           "title": "The Saga Begins",
           "type": "Parody",
           "originalSong": "American Pie",
-          "originalArtist": "Don McLean"
+          "originalArtist": "Don McLean",
+          "searchAliases": ["The Saga Begins (Lyrical Adaptation of \"American Pie\")"]
         },
         {
           "title": "My Baby's in Love with Eddie Vedder",
@@ -710,7 +718,8 @@
           "title": "Pretty Fly for a Rabbi",
           "type": "Parody",
           "originalSong": "Pretty Fly (for a White Guy)",
-          "originalArtist": "The Offspring"
+          "originalArtist": "Offspring",
+          "searchAliases": ["Pretty Fly for a Rabbi (Parody of \"Pretty Fly (For a White Guy)\" by Offspring)"]
         },
         {
           "title": "The Weird Al Show Theme",
@@ -720,7 +729,8 @@
           "title": "Jerry Springer",
           "type": "Parody",
           "originalSong": "One Week",
-          "originalArtist": "Barenaked Ladies"
+          "originalArtist": "BareNaked Ladies",
+          "searchAliases": ["Jerry Springer (Parody of \"One Week\" by BareNaked Ladies)"]
         },
         {
           "title": "Germs",
@@ -752,8 +762,9 @@
         {
           "title": "It's All About the Pentiums",
           "type": "Parody",
-          "originalSong": "It's All About the Benjamins (Rock Remix)",
-          "originalArtist": "Puff Daddy"
+          "originalSong": "It's All About the Benjamins",
+          "originalArtist": "Puff Daddy",
+          "searchAliases": ["It's All About the Pentiums (An adaptation of \"It's All About the Benjamins\" by Puff Daddy)"]
         },
         {
           "title": "Truck Drivin' Song",
@@ -764,12 +775,14 @@
           "title": "Grapefruit Diet",
           "type": "Parody",
           "originalSong": "Zoot Suit Riot",
-          "originalArtist": "Cherry Poppin' Daddies"
+          "originalArtist": "Cherry Poppin' Daddies",
+          "searchAliases": ["Grapefruit Diet (Parody of \"Zoot Suit Riot\" by Cherry Poppin' Daddies)"]
         },
         {
           "title": "Albuquerque",
           "type": "Style Parody",
-          "originalArtist": "Style of The Rugburns, George Thorogood, and Mojo Nixon"
+          "originalArtist": "Style of The Rugburns, George Thorogood, and Mojo Nixon",
+          "searchAliases": ["Albuquerque (Style Parody of The Rugburns, George Thorogood, and Mojo Nixon)"]
         }
       ]
     },
@@ -783,7 +796,8 @@
           "title": "Couch Potato",
           "type": "Parody",
           "originalSong": "Lose Yourself",
-          "originalArtist": "Eminem"
+          "originalArtist": "Eminem",
+          "searchAliases": ["Couch Potato (Parody of \"Lose Yourself\" by Eminem)"]
         },
         {
           "title": "Hardware Store",
@@ -793,7 +807,8 @@
           "title": "Trash Day",
           "type": "Parody",
           "originalSong": "Hot in Herre",
-          "originalArtist": "Nelly"
+          "originalArtist": "Nelly",
+          "searchAliases": ["Trash Day (Parody of \"Hot in Herre\" by Nelly)"]
         },
         {
           "title": "Party at the Leper Colony",
@@ -827,7 +842,8 @@
           "title": "A Complicated Song",
           "type": "Parody",
           "originalSong": "Complicated",
-          "originalArtist": "Avril Lavigne"
+          "originalArtist": "Avril Lavigne",
+          "searchAliases": ["A Complicated Song (Parody of \"Complicated\" by Avril Lavigne)"]
         },
         {
           "title": "Why Does This Always Happen to Me?",
@@ -838,18 +854,21 @@
           "title": "Ode to a Superhero",
           "type": "Parody",
           "originalSong": "Piano Man",
-          "originalArtist": "Billy Joel"
+          "originalArtist": "Billy Joel",
+          "searchAliases": ["Ode to a Superhero (Parody of \"Piano Man\" by Billy Joel)"]
         },
         {
           "title": "Bob",
           "type": "Style Parody",
-          "originalArtist": "Style of Bob Dylan (lyrics are all palindromes)"
+          "originalArtist": "Style of Bob Dylan (lyrics are all palindromes)",
+          "searchAliases": ["Bob (Style Parody of Bob Dylan)"]
         },
         {
           "title": "eBay",
           "type": "Parody",
           "originalSong": "I Want It That Way",
-          "originalArtist": "Backstreet Boys"
+          "originalArtist": "Backstreet Boys",
+          "searchAliases": ["eBay (Parody of \"I Want It That Way\" by Backstreet Boys)"]
         },
         {
           "title": "Genius in France",
@@ -868,18 +887,21 @@
           "title": "White & Nerdy",
           "type": "Parody",
           "originalSong": "Ridin'",
-          "originalArtist": "Chamillionaire feat. Krayzie Bone"
+          "originalArtist": "Chamillionaire feat. Krayzie Bone",
+          "searchAliases": ["White & Nerdy (Parody of \"Ridin'\" by Chamillionaire feat. Krayzie Bone)"]
         },
         {
           "title": "Pancreas",
           "type": "Style Parody",
-          "originalArtist": "Style of Brian Wilson / The Beach Boys (Smile era)"
+          "originalArtist": "Style of Brian Wilson / The Beach Boys (Smile era)",
+          "searchAliases": ["Pancreas (Style Parody of Brian Wilson / The Beach Boys (Smile era))"]
         },
         {
           "title": "Canadian Idiot",
           "type": "Parody",
           "originalSong": "American Idiot",
-          "originalArtist": "Green Day"
+          "originalArtist": "Green Day",
+          "searchAliases": ["Canadian Idiot (Parody of \"American Idiot\" by Green Day)"]
         },
         {
           "title": "I'll Sue Ya",
@@ -910,10 +932,11 @@
           "originalArtist": "Style of power pop (e.g., Sparks or The Darkness)"
         },
         {
-          "title": "Confessions Part III",
+          "title": "Confessions Pt. III",
           "type": "Parody",
-          "originalSong": "Confessions Part II",
-          "originalArtist": "Usher"
+          "originalSong": "Confessions Pt. II",
+          "originalArtist": "Usher",
+          "searchAliases": ["Confessions Pt. III (Parody of \"Confessions Pt. II\" by Usher)"]
         },
         {
           "title": "Weasel Stomping Day",
@@ -929,13 +952,15 @@
           "title": "Do I Creep You Out",
           "type": "Parody",
           "originalSong": "Do I Make You Proud",
-          "originalArtist": "Taylor Hicks"
+          "originalArtist": "Taylor Hicks",
+          "searchAliases": ["Do I Creep You Out (Parody of \"Do I Make You Proud\" by Taylor Hicks)"]
         },
         {
           "title": "Trapped in the Drive-Thru",
           "type": "Parody",
           "originalSong": "Trapped in the Closet",
-          "originalArtist": "R. Kelly"
+          "originalArtist": "R. Kelly",
+          "searchAliases": ["Trapped in the Drive-Thru (Parody of \"Trapped in the Closet\" by R. Kelly)"]
         },
         {
           "title": "Don't Download This Song",
@@ -954,7 +979,8 @@
           "title": "Perform This Way",
           "type": "Parody",
           "originalSong": "Born This Way",
-          "originalArtist": "Lady Gaga"
+          "originalArtist": "Lady Gaga",
+          "searchAliases": ["Perform This Way (Parody of \"Born This Way\" by Lady Gaga)"]
         },
         {
           "title": "CNR",
@@ -965,7 +991,8 @@
           "title": "TMZ",
           "type": "Parody",
           "originalSong": "You Belong with Me",
-          "originalArtist": "Taylor Swift"
+          "originalArtist": "Taylor Swift",
+          "searchAliases": ["TMZ (Parody of \"You Belong with Me\" by Taylor Swift)"]
         },
         {
           "title": "Skipper Dan",
@@ -1000,10 +1027,11 @@
           "originalArtist": "Style of The Doors (featuring Ray Manzarek on keyboards)"
         },
         {
-          "title": "Party in the CIA",
+          "title": "Party In the CIA",
           "type": "Parody",
-          "originalSong": "Party in the U.S.A.",
-          "originalArtist": "Miley Cyrus"
+          "originalSong": "Party In the U.S.A.",
+          "originalArtist": "Miley Cyrus",
+          "searchAliases": ["Party In the CIA (Parody of \"Party In the U.S.A.\" by Miley Cyrus)"]
         },
         {
           "title": "Ringtone",
@@ -1014,7 +1042,8 @@
           "title": "Another Tattoo",
           "type": "Parody",
           "originalSong": "Nothin' on You",
-          "originalArtist": "B.o.B feat. Bruno Mars"
+          "originalArtist": "B.o.B featuring Bruno Mars",
+          "searchAliases": ["Another Tattoo (Parody of \"Nothin' on You\" by B.o.B featuring Bruno Mars)"]
         },
         {
           "title": "If That Isn't Love",
@@ -1025,7 +1054,8 @@
           "title": "Whatever You Like",
           "type": "Parody",
           "originalSong": "Whatever You Like",
-          "originalArtist": "T.I."
+          "originalArtist": "T.I.",
+          "searchAliases": ["Whatever You Like (Parody of \"Whatever You Like\" by T.I.)"]
         },
         {
           "title": "Stop Forwarding That Crap to Me",
