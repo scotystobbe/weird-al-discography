@@ -3,6 +3,7 @@ import albumsData from "../data/albums.json";
 import { Input } from "../components/ui/input";
 import AlbumCard from "../components/AlbumCard";
 import SpotifyStatus from "../components/SpotifyStatus";
+import NowPlaying from "../components/NowPlaying";
 
 
 export default function Home() {
@@ -30,7 +31,8 @@ export default function Home() {
 
   return (
     <div className="p-4 max-w-screen-md mx-auto">
-       <SpotifyStatus /> {/* ✅ Add here */}
+       <SpotifyStatus />
+       <NowPlaying />
       <div className="relative mb-4">
         <Input
           placeholder="Search for albums or songs..."
