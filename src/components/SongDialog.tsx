@@ -10,6 +10,7 @@ interface Track {
 
 export default function SongDialog({ track }: { track: Track }) {
   const [showFeatured, setShowFeatured] = useState(false);
+
   return (
     <div className="p-6 text-left space-y-2 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl">
       <h3 className="text-xl font-bold">{track.title}</h3>
@@ -38,6 +39,23 @@ export default function SongDialog({ track }: { track: Track }) {
           )}
         </div>
       )}
+
+      {/* ✅ Add Search Lyrics Button */}
+      <div className="pt-4">
+        <button
+          onClick={() =>
+            window.open(
+              `https://www.google.com/search?q=${encodeURIComponent(
+                `Weird Al Yankovic ${track.title} lyrics`
+              )}`,
+              "_blank"
+            )
+          }
+          className="text-sm text-blue-600 dark:text-blue-400 underline hover:opacity-80"
+        >
+          🔍 Search Lyrics
+        </button>
+      </div>
     </div>
   );
 }
