@@ -28,16 +28,6 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
       )}
       <div className="flex items-center gap-2 mb-2">
         <h3 className={`font-bold ${large ? 'text-4xl' : 'text-xl'} m-0`}>{track.title}</h3>
-        <a
-          href={`https://open.spotify.com/search/${encodeURIComponent(track.title + (track.originalArtist ? ' ' + track.originalArtist : ''))}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center opacity-50 hover:opacity-80 transition-opacity"
-          title="Search on Spotify"
-          tabIndex={0}
-        >
-          <img src="/spotify_icon.png" alt="Spotify" className={`h-${large ? '8' : '5'} w-${large ? '8' : '5'} grayscale`} />
-        </a>
       </div>
       {large ? (
         <div>
@@ -50,11 +40,39 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
       {track.originalSong && (
         large ? (
           <div>
-            <div>Original Song:</div>
-            <div className="font-bold">{track.originalSong}</div>
+            <div className="flex items-center gap-2">
+              <span>Original Song:</span>
+              <span className="font-bold">{track.originalSong}</span>
+              {track.originalArtist && (
+                <a
+                  href={`https://open.spotify.com/search/${encodeURIComponent(track.originalSong + ' ' + track.originalArtist)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center opacity-50 hover:opacity-80 transition-opacity ml-2"
+                  title="Search on Spotify"
+                  tabIndex={0}
+                >
+                  <img src="/spotify_icon.png" alt="Spotify" className="h-8 w-8 grayscale" />
+                </a>
+              )}
+            </div>
           </div>
         ) : (
-          <p><strong>Original Song:</strong> {track.originalSong}</p>
+          <p className="flex items-center gap-2">
+            <strong>Original Song:</strong> {track.originalSong}
+            {track.originalArtist && (
+              <a
+                href={`https://open.spotify.com/search/${encodeURIComponent(track.originalSong + ' ' + track.originalArtist)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center opacity-50 hover:opacity-80 transition-opacity ml-1"
+                title="Search on Spotify"
+                tabIndex={0}
+              >
+                <img src="/spotify_icon.png" alt="Spotify" className="h-5 w-5 grayscale" />
+              </a>
+            )}
+          </p>
         )
       )}
       {track.originalArtist && (
