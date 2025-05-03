@@ -9,6 +9,7 @@ import {
 
 export function useSpotifyAuth() {
   const [token, setToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -32,14 +33,18 @@ export function useSpotifyAuth() {
         }),
       })
         .then(async res => {
-          const responseText = await res.text(); // read raw response
-          console.log("Spotify token response:", responseText); // 🔍 LOG THIS
+          const responseText = await res.text();
+          console.log("Spotify token response:", responseText);
           return JSON.parse(responseText);
         })
         .then(data => {
           if (data.access_token) {
             setToken(data.access_token);
             localStorage.setItem("spotify_access_token", data.access_token);
+            if (data.refresh_token) {
+              setRefreshToken(data.refresh_token);
+              localStorage.setItem("spotify_refresh_token", data.refresh_token);
+            }
             window.history.replaceState({}, "", "/");
           } else {
             console.error("Token exchange failed:", data);
@@ -47,7 +52,9 @@ export function useSpotifyAuth() {
         });
     } else {
       const saved = localStorage.getItem("spotify_access_token");
+      const savedRefresh = localStorage.getItem("spotify_refresh_token");
       if (saved) setToken(saved);
+      if (savedRefresh) setRefreshToken(savedRefresh);
     }
   }, []);
 
@@ -68,5 +75,38 @@ export function useSpotifyAuth() {
     window.location.href = url.toString();
   };
 
-  return { token, login };
+  const refreshAccessToken = async () => {
+    const storedRefreshToken = refreshToken || localStorage.getItem("spotify_refresh_token");
+    if (!storedRefreshToken) return null;
+    const res = await fetch("https://accounts.spotify.com/api/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        client_id: SPOTIFY_CLIENT_ID,
+        grant_type: "refresh_token",
+        refresh_token: storedRefreshToken,
+      }),
+    });
+    const data = await res.json();
+    if (data.access_token) {
+      setToken(data.access_token);
+      localStorage.setItem("spotify_access_token", data.access_token);
+      if (data.refresh_token) {
+        setRefreshToken(data.refresh_token);
+        localStorage.setItem("spotify_refresh_token", data.refresh_token);
+      }
+      return data.access_token;
+    } else {
+      // Refresh failed, clear tokens
+      setToken(null);
+      setRefreshToken(null);
+      localStorage.removeItem("spotify_access_token");
+      localStorage.removeItem("spotify_refresh_token");
+      return null;
+    }
+  };
+
+  return { token, login, refreshAccessToken };
 }

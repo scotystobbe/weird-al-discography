@@ -15,7 +15,7 @@ export function useNowPlaying(token: string | null) {
   const [track, setTrack] = useState<NowPlayingTrack | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { login } = useSpotifyAuth();
+  const { login, refreshAccessToken } = useSpotifyAuth();
 
   useEffect(() => {
     if (!token) return;
@@ -28,10 +28,10 @@ export function useNowPlaying(token: string | null) {
           "https://api.spotify.com/v1/me/player/currently-playing",
           token,
           () => {
-            if (window.confirm("Spotify session expired. Re-authenticate?")) {
-              login();
-            }
-          }
+            // Automatically re-authenticate if refresh fails
+            login();
+          },
+          refreshAccessToken
         );
 
         if (res.status === 204) {

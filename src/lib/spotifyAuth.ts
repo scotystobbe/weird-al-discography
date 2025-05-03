@@ -27,17 +27,39 @@ export function generateRandomString(length: number) {
  * @param url Spotify API endpoint
  * @param token Access token
  * @param onAuthError Callback to trigger re-auth prompt
+ * @param refreshAccessToken Function to refresh the access token
  * @param options Additional fetch options
  */
-export async function fetchSpotifyApi(url: string, token: string, onAuthError: () => void, options: RequestInit = {}) {
-  const res = await fetch(url, {
+export async function fetchSpotifyApi(
+  url: string,
+  token: string,
+  onAuthError: () => void,
+  refreshAccessToken: (() => Promise<string | null>) | null = null,
+  options: RequestInit = {}
+) {
+  let res = await fetch(url, {
     ...options,
     headers: {
       ...(options.headers || {}),
       Authorization: `Bearer ${token}`,
     },
   });
-  if (res.status === 401) {
+  if (res.status === 401 && refreshAccessToken) {
+    // Try to refresh the token
+    const newToken = await refreshAccessToken();
+    if (newToken) {
+      res = await fetch(url, {
+        ...options,
+        headers: {
+          ...(options.headers || {}),
+          Authorization: `Bearer ${newToken}`,
+        },
+      });
+      if (res.status !== 401) {
+        return res;
+      }
+    }
+    // If refresh fails or still 401, trigger re-auth
     onAuthError();
     throw new Error("Spotify token expired");
   }
