@@ -158,7 +158,7 @@ export default function Home() {
             className="relative w-14 h-8 flex items-center focus:outline-none"
           >
             {/* Track */}
-            <span className={`absolute left-0 top-0 w-full h-full rounded-full transition-colors duration-200 ${useSpotifySearch ? 'bg-[#8dc100]' : 'bg-gray-300 dark:bg-gray-700'}`}></span>
+            <span className={`absolute left-0 top-0 w-full h-full rounded-full transition-colors duration-200 ${useSpotifySearch ? 'bg-[#1dd65f]' : 'bg-gray-300 dark:bg-gray-700'}`}></span>
             {/* Thumb */}
             <span
               className={`absolute top-1 left-1 w-6 h-6 rounded-full border-2 border-black flex items-center justify-center transition-transform duration-200 bg-transparent shadow-none ${useSpotifySearch ? 'translate-x-6' : ''}`}
