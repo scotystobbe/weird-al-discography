@@ -1,10 +1,14 @@
 import React from "react";
 import { useSpotifyAuth } from "../hooks/useSpotifyAuth";
 import { useNowPlaying } from "../hooks/useSpotifyNowPlaying";
+import PlaybackControls from "./PlaybackControls";
+
 
 export default function NowPlaying() {
   const { token } = useSpotifyAuth();
   const { track, loading, error } = useNowPlaying(token);
+  {token && <PlaybackControls token={token} />}
+
 
   if (!token) return null;
   if (loading) return <p className="text-sm text-gray-500 mb-4">Fetching now playing...</p>;
