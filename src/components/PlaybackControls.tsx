@@ -69,28 +69,28 @@ export default function PlaybackControls({ token }: PlaybackControlsProps) {
     <div className="flex items-center gap-4 mt-2">
       <button
         onClick={() => sendCommand("previous")}
-        className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none text-white hover:text-white"
+        className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none"
         aria-label="Previous"
       >
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 19 2 12 11 5 11 19"/><rect x="13" y="5" width="3" height="14" rx="1" fill="currentColor"/></svg>
+        <img src="/skip_start_icon.svg" alt="Previous" className="w-8 h-8 filter invert" />
       </button>
       <button
         onClick={togglePlayPause}
-        className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none text-white hover:text-white"
+        className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none"
         aria-label="Play or Pause"
       >
         {isPlaying ? (
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor"/><rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor"/></svg>
+          <img src="/pause_icon.svg" alt="Pause" className="w-10 h-10 filter invert" />
         ) : (
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/></svg>
+          <img src="/play_icon.svg" alt="Play" className="w-10 h-10 filter invert" />
         )}
       </button>
       <button
         onClick={() => sendCommand("next")}
-        className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none text-white hover:text-white"
+        className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none"
         aria-label="Next"
       >
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 5 22 12 13 19 13 5"/><rect x="8" y="5" width="3" height="14" rx="1" fill="currentColor"/></svg>
+        <img src="/skip_end_icon.svg" alt="Next" className="w-8 h-8 filter invert" />
       </button>
     </div>
   );
