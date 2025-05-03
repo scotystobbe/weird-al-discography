@@ -46,50 +46,29 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
           )}
         </div>
       ) : (
-        <p><strong>Type:</strong> {track.type}</p>
-      )}
-      {track.originalSong && (
-        large ? (
-          <div>
-            <div className="flex items-center gap-2">
-              <span>Original Song:</span><span className="font-bold">{track.originalSong}</span>
-            </div>
-          </div>
-        ) : (
-          <p className="flex items-center gap-2">
-            <strong>Original Song:</strong><span>{track.originalSong}</span>
-            {track.originalArtist && (
-              <a
-                href={`https://open.spotify.com/search/${encodeURIComponent(track.originalSong + ' ' + track.originalArtist)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center opacity-50 hover:opacity-80 transition-opacity ml-1"
-                title="Search on Spotify"
-                tabIndex={0}
-              >
-                <img src="/spotify_icon.png" alt="Spotify" className="h-5 w-5 grayscale" />
-              </a>
-            )}
-          </p>
-        )
-      )}
-      {track.originalArtist && (
-        track.type === 'Style Parody' ? (
-          large ? (
-            <div className="font-bold">{track.originalArtist}</div>
-          ) : (
-            <p>{track.originalArtist}</p>
-          )
-        ) : (
-          large ? (
-            <div>
-              <div>Original Artist:</div>
-              <div className="font-bold">{track.originalArtist}</div>
-            </div>
-          ) : (
+        <>
+          <p><strong>Type:</strong> {track.type}</p>
+          {track.originalSong && (
+            <p className="flex items-center gap-2">
+              <strong>Original Song:</strong><span>{track.originalSong}</span>
+              {track.originalArtist && (
+                <a
+                  href={`https://open.spotify.com/search/${encodeURIComponent(track.originalSong + ' ' + track.originalArtist)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center opacity-50 hover:opacity-80 transition-opacity ml-1"
+                  title="Search on Spotify"
+                  tabIndex={0}
+                >
+                  <img src="/spotify_icon.png" alt="Spotify" className="h-5 w-5 grayscale" />
+                </a>
+              )}
+            </p>
+          )}
+          {track.originalArtist && (
             <p><strong>Original Artist:</strong> {track.originalArtist}</p>
-          )
-        )
+          )}
+        </>
       )}
       {Array.isArray(track.featuredSongs) && track.featuredSongs.length > 0 && (
         <div className="mt-4">
