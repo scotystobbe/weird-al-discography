@@ -33,16 +33,26 @@ export default function Home() {
   const [albumSort, setAlbumSort] = useState<'year' | 'alpha'>("year");
   const [trackSort, setTrackSort] = useState<'original' | 'alpha'>("original");
   const [showFilters, setShowFilters] = useState(false);
+  const [useSpotifySearch, setUseSpotifySearch] = useState(() => {
+    // Persist toggle in localStorage
+    const stored = localStorage.getItem('useSpotifySearch');
+    return stored === null ? true : stored === 'true';
+  });
 
   const { token } = useSpotifyAuth();
   const { track } = useNowPlaying(token);
 
-  // Autofill search term when track updates
+  // Autofill search term when track updates, only if toggle is on
   useEffect(() => {
-    if (track?.fullQuery) {
+    if (useSpotifySearch && track?.fullQuery) {
       setSearchTerm(track.fullQuery);
     }
-  }, [track]);
+  }, [track, useSpotifySearch]);
+
+  // Persist toggle
+  useEffect(() => {
+    localStorage.setItem('useSpotifySearch', useSpotifySearch ? 'true' : 'false');
+  }, [useSpotifySearch]);
 
   // Fuzzy search setup
   const fuse = new Fuse(albumsData.albums, {
@@ -85,7 +95,17 @@ export default function Home() {
       </h1>
 
       <SpotifyStatus />
-      <NowPlaying />
+      <div className="flex items-center mb-4">
+        <NowPlaying />
+        <button
+          className={`ml-4 px-3 py-2 rounded transition border font-semibold text-sm ${useSpotifySearch ? 'bg-blue-600 text-white border-blue-700' : 'bg-gray-200 text-gray-700 border-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600'}`}
+          onClick={() => setUseSpotifySearch(v => !v)}
+          aria-pressed={useSpotifySearch}
+          title="Toggle using Spotify track as search"
+        >
+          {useSpotifySearch ? 'Spotify Search: ON' : 'Spotify Search: OFF'}
+        </button>
+      </div>
       <div className="relative mb-4 flex items-center">
         <div className="flex-1 relative">
           {/* Search icon inside input */}
