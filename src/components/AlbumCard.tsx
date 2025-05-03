@@ -8,6 +8,7 @@ interface Track {
   type: string;
   originalArtist?: string;
   originalSong?: string;
+  searchAliases?: string[];
 }
 
 interface Album {
@@ -125,7 +126,10 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
               if (searchTerm && album.title.toLowerCase().includes(lower)) {
                 tracks = album.tracks;
               } else if (searchTerm) {
-                tracks = album.tracks.filter(track => track.title.toLowerCase().includes(lower));
+                tracks = album.tracks.filter(track =>
+                  track.title.toLowerCase().includes(lower) ||
+                  (Array.isArray(track.searchAliases) && track.searchAliases.some(alias => alias.toLowerCase().includes(lower)))
+                );
               } else {
                 tracks = album.tracks;
               }
