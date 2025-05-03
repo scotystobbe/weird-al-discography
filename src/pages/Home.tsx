@@ -52,7 +52,7 @@ export default function Home() {
     }
   };
 
-  // Autofill search term when track updates, always update search box to current track display title
+  // Autofill search term and trigger search when track updates
   useEffect(() => {
     if (track?.title) {
       setSearchTerm(track.title);
