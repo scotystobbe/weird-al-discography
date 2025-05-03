@@ -52,10 +52,10 @@ export default function Home() {
     }
   };
 
-  // Autofill search term when track updates, always update search box to current track title
+  // Autofill search term when track updates, always update search box to current track display title
   useEffect(() => {
-    if (track?.fullQuery) {
-      setSearchTerm(track.fullQuery);
+    if (track?.title) {
+      setSearchTerm(track.title);
     }
   }, [track]);
 
