@@ -37,7 +37,7 @@ export function useNowPlaying(token: string | null) {
       );
 
       if (res.status === 429) {
-        setError("Rate limited by Spotify. Please wait a couple minutes.");
+        setError("Cooling down.");
         if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
         pollingIntervalRef.current = setTimeout(() => {
           setError(null);
