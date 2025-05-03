@@ -164,7 +164,7 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
             {/* Close button */}
             <button
               onClick={() => { setSelectedTrack(null); setLargeDialog(false); }}
-              className="absolute top-2 right-3 text-4xl font-extrabold text-black hover:text-red-600 z-20 bg-white/80 rounded-full px-2 py-0.5 shadow-lg border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
+              className="absolute top-2 right-3 text-4xl font-extrabold text-white hover:text-red-500 z-20 bg-transparent border-none shadow-none p-0 m-0"
               aria-label="Close"
             >
               ×
