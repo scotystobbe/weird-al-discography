@@ -43,7 +43,7 @@ export function useNowPlaying(token: string | null) {
             artist,
             album,
             albumArt,
-            fullQuery: `${title} ${artist}`,
+            fullQuery: title,
           });
         } else {
           const errorText = await res.text();
