@@ -64,8 +64,21 @@ export default function Home() {
             placeholder="Search..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="pl-10 pr-10"
           />
+          {searchTerm && (
+            <button
+              type="button"
+              onClick={() => setSearchTerm("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none"
+              aria-label="Clear search"
+              tabIndex={0}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm2.83-10.83a1 1 0 00-1.41 0L10 8.59 8.59 7.17a1 1 0 10-1.41 1.41L8.59 10l-1.41 1.41a1 1 0 101.41 1.41L10 11.41l1.41 1.41a1 1 0 001.41-1.41L11.41 10l1.41-1.41a1 1 0 000-1.42z" clipRule="evenodd" />
+              </svg>
+            </button>
+          )}
         </div>
         <button
           type="button"
