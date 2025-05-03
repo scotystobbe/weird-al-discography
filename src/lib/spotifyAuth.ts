@@ -1,6 +1,6 @@
 export const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 export const REDIRECT_URI = "https://weird-al-discography.vercel.app/callback";
-export const SCOPES = ["user-read-playback-state", "user-read-currently-playing"];
+export const SCOPES = ["user-read-playback-state", "user-read-currently-playing", "user-modify-playback-state"];
 
 function base64encode(buffer: ArrayBuffer) {
   return btoa(String.fromCharCode(...new Uint8Array(buffer)))

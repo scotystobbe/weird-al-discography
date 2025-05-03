@@ -65,21 +65,21 @@ export default function PlaybackControls({ token }: PlaybackControlsProps) {
     <div className="flex items-center gap-4 mt-2">
       <button
         onClick={() => sendCommand("previous")}
-        className="text-gray-500 hover:text-white text-xl"
+        className="text-white hover:text-white text-2xl"
         aria-label="Previous"
       >
         ⏮
       </button>
       <button
         onClick={togglePlayPause}
-        className="text-gray-500 hover:text-white text-2xl"
+        className="text-white hover:text-white text-3xl"
         aria-label="Play or Pause"
       >
         {isPlaying ? "⏸" : "▶"}
       </button>
       <button
         onClick={() => sendCommand("next")}
-        className="text-gray-500 hover:text-white text-xl"
+        className="text-white hover:text-white text-2xl"
         aria-label="Next"
       >
         ⏭
