@@ -5,7 +5,7 @@
       "title": "\"Weird Al\" Yankovic",
       "sortTitle": "Weird Al Yankovic",
       "year": 1983,
-      "cover": "/src/assets/album-covers/weird_al_yankovic.jpg",
+      "cover": "public/album-covers/weird_al_yankovic.jpg",
       "tracks": [
         {
           "title": "Ricky",
@@ -73,7 +73,7 @@
       "id": "in_3d",
       "title": "In 3-D",
       "year": 1984,
-      "cover": "/src/assets/album-covers/in_3d.jpg",
+      "cover": "public/album-covers/in_3d.jpg",
       "tracks": [
         {
           "title": "Eat It",
@@ -153,7 +153,7 @@
       "id": "dare_to_be_stupid",
       "title": "Dare to Be Stupid",
       "year": 1985,
-      "cover": "/src/assets/album-covers/dare_to_be_stupid.jpg",
+      "cover": "public/album-covers/dare_to_be_stupid.jpg",
       "tracks": [
         {
           "title": "Like a Surgeon",
@@ -233,7 +233,7 @@
       "id": "polka_party",
       "title": "Polka Party!",
       "year": 1986,
-      "cover": "/src/assets/album-covers/polka_party.jpg",
+      "cover": "public/album-covers/polka_party.jpg",
       "tracks": [
         {
           "title": "Living with a Hernia",
@@ -303,7 +303,7 @@
       "id": "even_worse",
       "title": "Even Worse",
       "year": 1988,
-      "cover": "/src/assets/album-covers/even_worse.jpg",
+      "cover": "public/album-covers/even_worse.jpg",
       "tracks": [
         {
           "title": "Fat",
@@ -369,7 +369,7 @@
       "id": "uhf",
       "title": "UHF",
       "year": 1989,
-      "cover": "/src/assets/album-covers/uhf.jpg",
+      "cover": "public/album-covers/uhf.jpg",
       "tracks": [
         {
           "title": "Money for Nothing/Beverly Hillbillies*",
@@ -453,7 +453,7 @@
       "id": "off_the_deep_end",
       "title": "Off the Deep End",
       "year": 1992,
-      "cover": "/src/assets/album-covers/off_the_deep_end.jpg",
+      "cover": "public/album-covers/off_the_deep_end.jpg",
       "tracks": [
         {
           "title": "Smells Like Nirvana",
@@ -534,7 +534,7 @@
       "id": "alapalooza",
       "title": "Alapalooza",
       "year": 1993,
-      "cover": "/src/assets/album-covers/alapalooza.jpg",
+      "cover": "public/album-covers/alapalooza.jpg",
       "tracks": [
         {
           "title": "Jurassic Park",
@@ -606,7 +606,7 @@
       "id": "bad_hair_day",
       "title": "Bad Hair Day",
       "year": 1996,
-      "cover": "/src/assets/album-covers/bad_hair_day.png",
+      "cover": "public/album-covers/bad_hair_day.png",
       "tracks": [
         {
           "title": "Amish Paradise",
@@ -693,7 +693,7 @@
       "id": "running_with_scissors",
       "title": "Running with Scissors",
       "year": 1999,
-      "cover": "/src/assets/album-covers/running_with_scissors.jpg",
+      "cover": "public/album-covers/running_with_scissors.jpg",
       "tracks": [
         {
           "title": "The Saga Begins",
@@ -777,7 +777,7 @@
       "id": "poodle_hat",
       "title": "Poodle Hat",
       "year": 2003,
-      "cover": "/src/assets/album-covers/poodle_hat.jpg",
+      "cover": "public/album-covers/poodle_hat.jpg",
       "tracks": [
         {
           "title": "Couch Potato",
@@ -862,7 +862,7 @@
       "id": "straight_outta_lynwood",
       "title": "Straight Outta Lynwood",
       "year": 2006,
-      "cover": "/src/assets/album-covers/straight_outta_lynwood.jpg",
+      "cover": "public/album-covers/straight_outta_lynwood.jpg",
       "tracks": [
         {
           "title": "White & Nerdy",
@@ -948,7 +948,7 @@
       "id": "alpocalypse",
       "title": "Alpocalypse",
       "year": 2011,
-      "cover": "/src/assets/album-covers/alpocalypse.jpeg",
+      "cover": "public/album-covers/alpocalypse.jpeg",
       "tracks": [
         {
           "title": "Perform This Way",
@@ -1038,7 +1038,7 @@
       "id": "mandatory_fun",
       "title": "Mandatory Fun",
       "year": 2014,
-      "cover": "/src/assets/album-covers/mandatory_fun.webp",
+      "cover": "public/album-covers/mandatory_fun.webp",
       "tracks": [
         {
           "title": "Handy",
