@@ -46,9 +46,12 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
     if (!searchTerm) return text;
     const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
     return text.split(regex).map((part, i) =>
-      regex.test(part) ? <mark key={i} className="bg-yellow-200 p-0.5 rounded">{part}</mark> : part
+      regex.test(part)
+        ? <span key={i} className="font-semibold">{part}</span>
+        : part
     );
   }
+  
 
   return (
     <Card className="transition-shadow duration-200 hover:shadow-lg cursor-pointer">
