@@ -11,7 +11,11 @@ export default function PlaybackControls({ token }: PlaybackControlsProps) {
   const [isPlaying, setIsPlaying] = useState<boolean | null>(null);
   const { login } = useSpotifyAuth();
 
-  const sendCommand = async (endpoint: string, method = "POST") => {
+  const sendCommand = async (endpoint: string) => {
+    let method: string = "POST";
+    if (endpoint === "play" || endpoint === "pause") {
+      method = "PUT";
+    }
     try {
       await fetchSpotifyApi(
         `https://api.spotify.com/v1/me/player/${endpoint}`,
@@ -65,24 +69,28 @@ export default function PlaybackControls({ token }: PlaybackControlsProps) {
     <div className="flex items-center gap-4 mt-2">
       <button
         onClick={() => sendCommand("previous")}
-        className="text-white hover:text-white text-2xl"
+        className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none text-white hover:text-white"
         aria-label="Previous"
       >
-        ⏮
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 19 2 12 11 5 11 19"/><rect x="13" y="5" width="3" height="14" rx="1" fill="currentColor"/></svg>
       </button>
       <button
         onClick={togglePlayPause}
-        className="text-white hover:text-white text-3xl"
+        className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none text-white hover:text-white"
         aria-label="Play or Pause"
       >
-        {isPlaying ? "⏸" : "▶"}
+        {isPlaying ? (
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor"/><rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor"/></svg>
+        ) : (
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/></svg>
+        )}
       </button>
       <button
         onClick={() => sendCommand("next")}
-        className="text-white hover:text-white text-2xl"
+        className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none text-white hover:text-white"
         aria-label="Next"
       >
-        ⏭
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 5 22 12 13 19 13 5"/><rect x="8" y="5" width="3" height="14" rx="1" fill="currentColor"/></svg>
       </button>
     </div>
   );
