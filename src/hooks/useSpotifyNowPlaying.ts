@@ -68,12 +68,14 @@ export function useNowPlaying(token: string | null) {
         const artist = item.artists.map((a: any) => a.name).join(", ");
         const album = item.album.name;
         const albumArt = item.album.images[0]?.url ?? "";
+        // Clean the title for display (remove parentheticals)
+        const displayTitle = title.replace(/\s*\([^)]*\)/g, "").trim();
 
         // Only update if the track has actually changed
         setTrack(prev => {
           if (
             prev &&
-            prev.title === title &&
+            prev.title === displayTitle &&
             prev.artist === artist &&
             prev.album === album &&
             prev.albumArt === albumArt
@@ -81,7 +83,7 @@ export function useNowPlaying(token: string | null) {
             return prev; // No change
           }
           return {
-            title,
+            title: displayTitle,
             artist,
             album,
             albumArt,

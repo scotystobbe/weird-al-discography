@@ -52,12 +52,12 @@ export default function Home() {
     }
   };
 
-  // Autofill search term when track updates, only if toggle is on
+  // Autofill search term when track updates, always update search box to current track title
   useEffect(() => {
-    if (useSpotifySearch && track?.fullQuery) {
+    if (track?.fullQuery) {
       setSearchTerm(track.fullQuery);
     }
-  }, [track, useSpotifySearch]);
+  }, [track]);
 
   // Persist toggle
   useEffect(() => {
@@ -199,7 +199,6 @@ export default function Home() {
             album={album}
             searchTerm={searchTerm}
             trackSort={trackSort}
-            matchInfo={('_matches' in album) ? (album as any)._matches : undefined}
           />
         ))}
       </div>

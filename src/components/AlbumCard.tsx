@@ -22,10 +22,9 @@ interface AlbumCardProps {
   album: Album;
   searchTerm?: string;
   trackSort?: 'original' | 'alpha';
-  matchInfo?: any[];
 }
 
-export default function AlbumCard({ album, searchTerm = "", trackSort = 'original', matchInfo }: AlbumCardProps) {
+export default function AlbumCard({ album, searchTerm = "", trackSort = 'original' }: AlbumCardProps) {
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [largeDialog, setLargeDialog] = useState(false);
@@ -44,25 +43,10 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
     }
   }, [searchTerm, album]);
 
-  // Helper to highlight search term or fuzzy match
-  function highlight(text: string, match?: {indices: [number, number][]}) {
-    if (match && match.indices.length > 0) {
-      let lastIndex = 0;
-      const parts = [];
-      match.indices.forEach(([start, end], i) => {
-        if (lastIndex < start) {
-          parts.push(text.slice(lastIndex, start));
-        }
-        parts.push(<span key={i} className="font-semibold">{text.slice(start, end + 1)}</span>);
-        lastIndex = end + 1;
-      });
-      if (lastIndex < text.length) {
-        parts.push(text.slice(lastIndex));
-      }
-      return parts;
-    }
+  // Helper to highlight search term or fuzzy match (remove tag logic)
+  function highlight(text: string) {
     if (searchTerm) {
-      const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&")})`, "gi");
+      const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
       return text.split(regex).map((part, i) =>
         regex.test(part)
           ? <span key={i} className="font-semibold">{part}</span>
@@ -70,19 +54,6 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
       );
     }
     return text;
-  }
-  
-  // Find match info for album title and tracks
-  let albumTitleMatch: any = null;
-  let trackMatches: Record<string, any> = {};
-  if (matchInfo && Array.isArray(matchInfo)) {
-    for (const match of matchInfo) {
-      if (match.key === 'title') albumTitleMatch = match;
-      if (match.key && match.key.startsWith('tracks')) {
-        const idx = match.refIndex;
-        if (typeof idx === 'number') trackMatches[idx] = match;
-      }
-    }
   }
 
   return (
@@ -104,7 +75,7 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
           />
           <div className="flex-1">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              {highlight(album.title, albumTitleMatch)}
+              {highlight(album.title)}
             </h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">{album.year}</p>
           </div>
@@ -142,10 +113,7 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
                     onClick={e => { e.stopPropagation(); setSelectedTrack(track); }}
                     className="text-left w-full rounded-lg px-3 py-2 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors border-0 outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-300"
                   >
-                    {highlight(track.title, trackMatches[idx])}
-                    {trackMatches[idx] && trackMatches[idx].key && trackMatches[idx].key.includes('originalSong') && (
-                      <span className="ml-2 px-2 py-0.5 text-xs bg-purple-200 dark:bg-purple-700 text-purple-900 dark:text-purple-100 rounded">Original Song</span>
-                    )}
+                    {highlight(track.title)}
                   </button>
                 </li>
               ));
