@@ -28,6 +28,7 @@ interface AlbumCardProps {
 export default function AlbumCard({ album, searchTerm = "", trackSort = 'original', matchInfo }: AlbumCardProps) {
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
   const [expanded, setExpanded] = useState(false);
+  const [largeDialog, setLargeDialog] = useState(false);
 
   // Auto-expand if searchTerm matches album or any track
   useEffect(() => {
@@ -156,16 +157,19 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
       {/* Dialog for song details, only if expanded */}
       {expanded && selectedTrack && (
         <Dialog>
-          <DialogContent className="relative" onClose={() => setSelectedTrack(null)}>
+          <DialogContent
+            className={`relative ${largeDialog ? 'max-w-4xl w-full h-full max-h-[90vh] flex items-center justify-center' : ''}`}
+            onClose={() => { setSelectedTrack(null); setLargeDialog(false); }}
+          >
             {/* Close button */}
             <button
-              onClick={() => setSelectedTrack(null)}
-              className="absolute top-2 right-3 text-4xl font-extrabold text-black hover:text-red-600"
+              onClick={() => { setSelectedTrack(null); setLargeDialog(false); }}
+              className="absolute top-2 right-3 text-4xl font-extrabold text-black hover:text-red-600 z-20 bg-white/80 rounded-full px-2 py-0.5 shadow-lg border border-gray-300 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
               aria-label="Close"
             >
               ×
             </button>
-            <SongDialog track={selectedTrack} />
+            <SongDialog track={selectedTrack} large={largeDialog} onToggleLarge={() => setLargeDialog(l => !l)} />
           </DialogContent>
         </Dialog>
       )}

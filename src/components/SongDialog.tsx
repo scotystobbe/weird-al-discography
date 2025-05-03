@@ -8,11 +8,27 @@ interface Track {
   featuredSongs?: string[];
 }
 
-export default function SongDialog({ track }: { track: Track }) {
+interface SongDialogProps {
+  track: Track;
+  large?: boolean;
+  onToggleLarge?: () => void;
+}
+
+export default function SongDialog({ track, large = false, onToggleLarge }: SongDialogProps) {
   const [showFeatured, setShowFeatured] = useState(false);
 
   return (
-    <div className="p-6 text-left space-y-2 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl">
+    <div className={`p-6 text-left space-y-2 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl transition-all ${large ? 'text-3xl p-12' : ''}`}>
+      {/* Large mode toggle button */}
+      {onToggleLarge && (
+        <button
+          onClick={onToggleLarge}
+          className={`absolute top-2 left-3 z-20 px-4 py-2 rounded-lg font-bold shadow-lg border border-gray-300 dark:border-gray-700 bg-blue-600 text-white hover:bg-blue-700 transition text-base ${large ? 'scale-125' : ''}`}
+          aria-label={large ? 'Show Smaller' : 'Show Larger'}
+        >
+          {large ? 'Show Smaller' : 'Show Larger'}
+        </button>
+      )}
       <h3 className="text-xl font-bold">{track.title}</h3>
       <p><strong>Type:</strong> {track.type}</p>
       {track.originalSong && (
@@ -51,7 +67,7 @@ export default function SongDialog({ track }: { track: Track }) {
               "_blank"
             )
           }
-          className="px-4 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition"
+          className={`px-4 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition ${large ? 'text-2xl px-8 py-4' : ''}`}
         >
           Search Lyrics
         </button>
