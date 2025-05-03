@@ -67,10 +67,8 @@ export default function Home() {
   // Fuzzy search setup
   const fuse = new Fuse(albumsData.albums, {
     keys: [
-      "title",
       "tracks.title",
-      "tracks.searchAliases",
-      "tracks.originalSong"
+      "tracks.searchAliases"
     ],
     threshold: 0.4,
     includeMatches: true,
