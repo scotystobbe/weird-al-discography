@@ -69,7 +69,8 @@ export default function SongDialog({ track, large = false, onToggleLarge }: Song
       {onToggleLarge && (
         <button
           onClick={onToggleLarge}
-          className="absolute bottom-3 right-3 z-20 px-3 py-1 rounded-lg font-bold shadow border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition text-xl flex items-center gap-1"
+          className={`absolute z-20 px-3 py-1 rounded-lg font-bold shadow border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition text-xl flex items-center gap-1
+            ${large ? 'bottom-10 right-10' : 'bottom-3 right-3'}`}
           aria-label={large ? 'Show Smaller' : 'Show Larger'}
         >
           <span className={`${large ? 'opacity-50' : 'opacity-100'} transition`}>A</span>
