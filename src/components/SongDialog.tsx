@@ -39,10 +39,14 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
             </div>
           )}
           {track.originalArtist && (
-            <div className="mt-4">
-              <div>Original Artist:</div>
-              <div className="font-bold">{track.originalArtist}</div>
-            </div>
+            track.type === 'Style Parody' ? (
+              <div className="mt-4 font-bold">{track.originalArtist}</div>
+            ) : (
+              <div className="mt-4">
+                <div>Original Artist:</div>
+                <div className="font-bold">{track.originalArtist}</div>
+              </div>
+            )
           )}
         </div>
       ) : (
@@ -66,7 +70,11 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
             </p>
           )}
           {track.originalArtist && (
-            <p><strong>Original Artist:</strong> {track.originalArtist}</p>
+            track.type === 'Style Parody' ? (
+              <p className="font-bold">{track.originalArtist}</p>
+            ) : (
+              <p><strong>Original Artist:</strong> {track.originalArtist}</p>
+            )
           )}
         </>
       )}
