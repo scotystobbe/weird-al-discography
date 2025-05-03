@@ -22,7 +22,7 @@ export default function NowPlaying() {
         <p className="text-sm text-gray-600 dark:text-gray-300">{track.album}</p>
 
         {/* ✅ Add playback controls here */}
-        <PlaybackControls token={token} />
+        {/* <PlaybackControls token={token} /> */}
       </div>
     </div>
   );
