@@ -105,6 +105,7 @@ export default function Home() {
       </h1>
 
       <SpotifyStatus />
+      <NowPlaying />
       <div className="relative mb-4 flex items-center">
         <div className="flex-1 relative">
           {/* Search icon inside input */}
@@ -149,7 +150,7 @@ export default function Home() {
               className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow-md flex items-center justify-center transition-transform duration-200 ${useSpotifySearch ? 'translate-x-6' : ''}`}
             >
               {/* Spotify icon */}
-              <img src="/spotify_icon.svg" alt="Spotify" className="h-5 w-5" />
+              <img src="/spotify_icon.png" alt="Spotify" className="h-5 w-5" />
             </span>
             {/* Label (visually hidden for accessibility) */}
             <span className="sr-only">Toggle Spotify search</span>
