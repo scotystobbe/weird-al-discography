@@ -9,29 +9,47 @@ export default function NowPlaying() {
   const { track, loading, error, refresh } = useNowPlaying(token);
 
   if (!token) return null;
-  if (loading) return <p className="text-sm text-gray-500 mb-4">Fetching now playing...</p>;
-  if (error) return <p className="text-sm text-red-500 mb-4">Error: {error}</p>;
-  if (!track) return <p className="text-sm text-gray-500 mb-4">Nothing is currently playing on Spotify.</p>;
 
   return (
-    <div className="flex items-center justify-between mb-4 p-3 border rounded-lg shadow-sm bg-white dark:bg-gray-800">
+    <div className="flex items-center justify-between mb-4 p-3 border rounded-lg shadow-sm bg-white dark:bg-gray-800 min-h-[80px]">
       <div className="flex items-center min-w-0 flex-1">
-        <img
-          src={track.albumArt}
-          alt={track.album}
-          className="w-16 h-16 mr-4 rounded shrink-0 cursor-pointer"
-          onClick={refresh}
-          aria-label="Refresh now playing from Spotify"
-          title="Refresh now playing from Spotify"
-        />
+        {track ? (
+          <img
+            src={track.albumArt}
+            alt={track.album}
+            className="w-16 h-16 mr-4 rounded shrink-0 cursor-pointer"
+            onClick={refresh}
+            aria-label="Refresh now playing from Spotify"
+            title="Refresh now playing from Spotify"
+          />
+        ) : (
+          <div className="w-16 h-16 mr-4 rounded shrink-0 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+            <span className="text-gray-400 dark:text-gray-500 text-2xl">♪</span>
+          </div>
+        )}
         <div className="min-w-0">
-          <p className="text-base font-semibold break-words whitespace-normal" title={track.title}>
-            {track.title}
-          </p>
-          {/* <p className="text-sm text-gray-600 dark:text-gray-300">{track.artist}</p> */}
-          <p className="text-sm text-gray-600 dark:text-gray-300 break-words whitespace-normal" title={track.album}>
-            {track.album}
-          </p>
+          {loading && (
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin inline-block"></span>
+              <span className="text-xs text-gray-500">Fetching now playing...</span>
+            </div>
+          )}
+          {error && (
+            <div className="text-xs text-red-500 mb-1">{error}</div>
+          )}
+          {track ? (
+            <>
+              <p className="text-base font-semibold break-words whitespace-normal" title={track.title}>
+                {track.title}
+              </p>
+              {/* <p className="text-sm text-gray-600 dark:text-gray-300">{track.artist}</p> */}
+              <p className="text-sm text-gray-600 dark:text-gray-300 break-words whitespace-normal" title={track.album}>
+                {track.album}
+              </p>
+            </>
+          ) : !loading && !error ? (
+            <p className="text-sm text-gray-500 dark:text-gray-400">Nothing is currently playing on Spotify.</p>
+          ) : null}
         </div>
       </div>
       <div className="flex-shrink-0 ml-4">
