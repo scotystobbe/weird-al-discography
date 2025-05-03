@@ -45,6 +45,10 @@ export default function Home() {
 
   return (
     <div className="p-4 max-w-screen-md mx-auto">
+      <h1 className="text-2xl font-extrabold text-center text-gray-900 dark:text-white mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
+        Weird Al Discography
+      </h1>
+
       <SpotifyStatus />
       <NowPlaying />
       <div className="relative mb-4">

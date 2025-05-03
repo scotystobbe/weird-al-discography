@@ -11,7 +11,7 @@ export default function NowPlaying() {
   if (!token) return null;
   if (loading) return <p className="text-sm text-gray-500 mb-4">Fetching now playing...</p>;
   if (error) return <p className="text-sm text-red-500 mb-4">Error: {error}</p>;
-  if (!track) return <p className="text-sm text-gray-500 mb-4">Nothing is currently playing.</p>;
+  if (!track) return <p className="text-sm text-gray-500 mb-4">Nothing is currently playing on Spotify.</p>;
 
   return (
     <div className="flex items-center mb-4 p-3 border rounded-lg shadow-sm bg-white dark:bg-gray-800">
