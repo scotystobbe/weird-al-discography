@@ -26,7 +26,19 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
           <img src={albumCover} alt="Album cover" className="rounded-xl max-w-xs max-h-64 object-contain shadow-lg" />
         </div>
       )}
-      <h3 className={`font-bold ${large ? 'text-4xl' : 'text-xl'}`}>{track.title}</h3>
+      <div className="flex items-center gap-2 mb-2">
+        <h3 className={`font-bold ${large ? 'text-4xl' : 'text-xl'} m-0`}>{track.title}</h3>
+        <a
+          href={`https://open.spotify.com/search/${encodeURIComponent(track.title + (track.originalArtist ? ' ' + track.originalArtist : ''))}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center opacity-50 hover:opacity-80 transition-opacity"
+          title="Search on Spotify"
+          tabIndex={0}
+        >
+          <img src="/spotify_icon.png" alt="Spotify" className={`h-${large ? '8' : '5'} w-${large ? '8' : '5'} grayscale`} />
+        </a>
+      </div>
       {large ? (
         <div>
           <div>Type:</div>

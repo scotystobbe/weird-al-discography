@@ -37,7 +37,7 @@ export function useNowPlaying(token: string | null) {
       );
 
       if (res.status === 429) {
-        setError("Cooling down.");
+        setError(null);
         if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
         pollingIntervalRef.current = setTimeout(() => {
           setError(null);
