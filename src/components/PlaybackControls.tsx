@@ -31,8 +31,8 @@ export default function PlaybackControls({ token }: PlaybackControlsProps) {
       if (endpoint === "play") setIsPlaying(true);
       if (endpoint === "pause") setIsPlaying(false);
       if (endpoint === "next" || endpoint === "previous") {
-        // Refresh playback state to get the new track
-        fetchPlaybackState();
+        // Force refresh after a short delay to ensure Spotify updates
+        setTimeout(fetchPlaybackState, 600);
       }
     } catch (err) {
       // Optionally handle error
@@ -70,17 +70,17 @@ export default function PlaybackControls({ token }: PlaybackControlsProps) {
   };
 
   return (
-    <div className="flex items-center gap-4 mt-2">
+    <div className="flex items-center gap-2 mt-2">
       <button
         onClick={() => sendCommand("previous")}
         className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none"
         aria-label="Previous"
       >
-        <img src="/skip_start_icon.svg" alt="Previous" className="w-8 h-8 filter invert" />
+        <img src="/skip_start_icon.svg" alt="Previous" className="w-6 h-6 filter invert" />
       </button>
       <button
         onClick={togglePlayPause}
-        className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none"
+        className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none mx-2"
         aria-label="Play or Pause"
       >
         {isPlaying ? (
@@ -94,7 +94,7 @@ export default function PlaybackControls({ token }: PlaybackControlsProps) {
         className="p-0 m-0 bg-transparent border-none outline-none focus:outline-none"
         aria-label="Next"
       >
-        <img src="/skip_end_icon.svg" alt="Next" className="w-8 h-8 filter invert" />
+        <img src="/skip_end_icon.svg" alt="Next" className="w-6 h-6 filter invert" />
       </button>
     </div>
   );

@@ -18,11 +18,11 @@ export default function NowPlaying() {
       <div className="flex items-center min-w-0 flex-1">
         <img src={track.albumArt} alt={track.album} className="w-16 h-16 mr-4 rounded shrink-0" />
         <div className="min-w-0">
-          <p className="text-base font-semibold truncate max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl" title={track.title}>
+          <p className="text-base font-semibold break-words whitespace-normal" title={track.title}>
             {track.title}
           </p>
           {/* <p className="text-sm text-gray-600 dark:text-gray-300">{track.artist}</p> */}
-          <p className="text-sm text-gray-600 dark:text-gray-300 truncate max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl" title={track.album}>
+          <p className="text-sm text-gray-600 dark:text-gray-300 break-words whitespace-normal" title={track.album}>
             {track.album}
           </p>
         </div>
