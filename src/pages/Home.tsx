@@ -134,45 +134,44 @@ export default function Home() {
             </button>
           )}
         </div>
-        {/* Spotify toggle switch and sort icon, only show when searchTerm is empty */}
-        {!searchTerm && (
-          <>
-            <div className="flex items-center">
-              <button
-                type="button"
-                onClick={handleToggle}
-                aria-pressed={useSpotifySearch}
-                title="Toggle using Spotify track as search"
-                className="relative w-14 h-8 flex items-center focus:outline-none"
-              >
-                {/* Track */}
-                <span className={`absolute left-0 top-0 w-full h-full rounded-full transition-colors duration-200 ${useSpotifySearch ? 'bg-[#8dc100]' : 'bg-gray-300 dark:bg-gray-700'}`}></span>
-                {/* Thumb */}
-                <span
-                  className={`absolute top-1 left-1 w-6 h-6 rounded-full border-2 border-black flex items-center justify-center transition-transform duration-200 bg-transparent shadow-none ${useSpotifySearch ? 'translate-x-6' : ''}`}
-                >
-                  <img
-                    src="/spotify_icon.png"
-                    alt="Spotify"
-                    className={`h-5 w-5 transition duration-200 ${useSpotifySearch ? '' : 'opacity-50 grayscale'}`}
-                  />
-                </span>
-                {/* Label (visually hidden for accessibility) */}
-                <span className="sr-only">Toggle Spotify search</span>
-              </button>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowFilters(f => !f)}
-              className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none"
-              aria-label="Show sorting options"
+        {/* Spotify toggle switch always visible */}
+        <div className="flex items-center">
+          <button
+            type="button"
+            onClick={handleToggle}
+            aria-pressed={useSpotifySearch}
+            title="Toggle using Spotify track as search"
+            className="relative w-14 h-8 flex items-center focus:outline-none"
+          >
+            {/* Track */}
+            <span className={`absolute left-0 top-0 w-full h-full rounded-full transition-colors duration-200 ${useSpotifySearch ? 'bg-[#8dc100]' : 'bg-gray-300 dark:bg-gray-700'}`}></span>
+            {/* Thumb */}
+            <span
+              className={`absolute top-1 left-1 w-6 h-6 rounded-full border-2 border-black flex items-center justify-center transition-transform duration-200 bg-transparent shadow-none ${useSpotifySearch ? 'translate-x-6' : ''}`}
             >
-              {/* Inline sort_icon.svg, theme-aware color */}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6 text-gray-500 dark:text-gray-300" fill="currentColor">
-                <path d="M9.25,5L12.5,1.75L15.75,5H9.25M15.75,19L12.5,22.25L9.25,19H15.75M8.89,14.3H6L5.28,17H2.91L6,7H9L12.13,17H9.67L8.89,14.3M6.33,12.68H8.56L7.93,10.56L7.67,9.59L7.42,8.63H7.39L7.17,9.6L6.93,10.58L6.33,12.68M13.05,17V15.74L17.8,8.97V8.91H13.5V7H20.73V8.34L16.09,15V15.08H20.8V17H13.05Z" />
-              </svg>
-            </button>
-          </>
+              <img
+                src="/spotify_icon.png"
+                alt="Spotify"
+                className={`h-5 w-5 transition duration-200 ${useSpotifySearch ? '' : 'opacity-50 grayscale'}`}
+              />
+            </span>
+            {/* Label (visually hidden for accessibility) */}
+            <span className="sr-only">Toggle Spotify search</span>
+          </button>
+        </div>
+        {/* Sort icon only visible when searchTerm is empty */}
+        {!searchTerm && (
+          <button
+            type="button"
+            onClick={() => setShowFilters(f => !f)}
+            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none"
+            aria-label="Show sorting options"
+          >
+            {/* Inline sort_icon.svg, theme-aware color */}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6 text-gray-500 dark:text-gray-300" fill="currentColor">
+              <path d="M9.25,5L12.5,1.75L15.75,5H9.25M15.75,19L12.5,22.25L9.25,19H15.75M8.89,14.3H6L5.28,17H2.91L6,7H9L12.13,17H9.67L8.89,14.3M6.33,12.68H8.56L7.93,10.56L7.67,9.59L7.42,8.63H7.39L7.17,9.6L6.93,10.58L6.33,12.68M13.05,17V15.74L17.8,8.97V8.91H13.5V7H20.73V8.34L16.09,15V15.08H20.8V17H13.05Z" />
+            </svg>
+          </button>
         )}
       </div>
       {showFilters && (

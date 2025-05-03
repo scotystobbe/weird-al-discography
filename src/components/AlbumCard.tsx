@@ -104,7 +104,6 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
           <div className="flex-1">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               {highlight(album.title, albumTitleMatch)}
-              {albumTitleMatch && <span className="ml-2 px-2 py-0.5 text-xs bg-blue-200 dark:bg-blue-700 text-blue-900 dark:text-blue-100 rounded">Fuzzy</span>}
             </h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">{album.year}</p>
           </div>
