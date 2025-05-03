@@ -31,8 +31,19 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
       </div>
       {large ? (
         <div>
-          <div>Type:</div>
-          <div className="font-bold">{track.type}</div>
+          <div className="flex items-center gap-2"><span>Type:</span><span className="font-bold">{track.type}</span></div>
+          {track.originalSong && (
+            <div className="mt-4">
+              <div>Original Song:</div>
+              <div className="font-bold">{track.originalSong}</div>
+            </div>
+          )}
+          {track.originalArtist && (
+            <div className="mt-4">
+              <div>Original Artist:</div>
+              <div className="font-bold">{track.originalArtist}</div>
+            </div>
+          )}
         </div>
       ) : (
         <p><strong>Type:</strong> {track.type}</p>
