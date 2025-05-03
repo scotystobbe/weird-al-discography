@@ -34,13 +34,23 @@ export default function Home() {
   const [trackSort, setTrackSort] = useState<'original' | 'alpha'>("original");
   const [showFilters, setShowFilters] = useState(false);
   const [useSpotifySearch, setUseSpotifySearch] = useState(() => {
-    // Persist toggle in localStorage
     const stored = localStorage.getItem('useSpotifySearch');
     return stored === null ? true : stored === 'true';
   });
 
   const { token } = useSpotifyAuth();
   const { track } = useNowPlaying(token);
+
+  // Handle toggle: fill or clear search box on toggle
+  const handleToggle = () => {
+    const newValue = !useSpotifySearch;
+    setUseSpotifySearch(newValue);
+    if (newValue) {
+      if (track?.fullQuery) setSearchTerm(track.fullQuery);
+    } else {
+      setSearchTerm("");
+    }
+  };
 
   // Autofill search term when track updates, only if toggle is on
   useEffect(() => {
@@ -97,14 +107,30 @@ export default function Home() {
       <SpotifyStatus />
       <div className="flex items-center mb-4">
         <NowPlaying />
-        <button
-          className={`ml-4 px-3 py-2 rounded transition border font-semibold text-sm ${useSpotifySearch ? 'bg-blue-600 text-white border-blue-700' : 'bg-gray-200 text-gray-700 border-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600'}`}
-          onClick={() => setUseSpotifySearch(v => !v)}
-          aria-pressed={useSpotifySearch}
-          title="Toggle using Spotify track as search"
-        >
-          {useSpotifySearch ? 'Spotify Search: ON' : 'Spotify Search: OFF'}
-        </button>
+        <div className="ml-4 flex items-center">
+          {/* Slide toggle with magnifying glass icon */}
+          <button
+            type="button"
+            onClick={handleToggle}
+            aria-pressed={useSpotifySearch}
+            title="Toggle using Spotify track as search"
+            className="relative w-14 h-8 flex items-center focus:outline-none"
+          >
+            {/* Track */}
+            <span className={`absolute left-0 top-0 w-full h-full rounded-full transition-colors duration-200 ${useSpotifySearch ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-700'}`}></span>
+            {/* Thumb */}
+            <span
+              className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow-md flex items-center justify-center transition-transform duration-200 ${useSpotifySearch ? 'translate-x-6' : ''}`}
+            >
+              {/* Magnifying glass icon */}
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+              </svg>
+            </span>
+            {/* Label (visually hidden for accessibility) */}
+            <span className="sr-only">Toggle Spotify search</span>
+          </button>
+        </div>
       </div>
       <div className="relative mb-4 flex items-center">
         <div className="flex-1 relative">
