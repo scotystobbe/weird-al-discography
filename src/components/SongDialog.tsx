@@ -51,9 +51,9 @@ export default function SongDialog({ track }: { track: Track }) {
               "_blank"
             )
           }
-          className="text-sm text-blue-600 dark:text-blue-400 underline hover:opacity-80"
+          className="px-4 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition"
         >
-          🔍 Search Lyrics
+          Search Lyrics
         </button>
       </div>
     </div>
