@@ -169,7 +169,16 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
             >
               ×
             </button>
-            <SongDialog track={selectedTrack} large={largeDialog} onToggleLarge={() => setLargeDialog(l => !l)} />
+            <SongDialog track={selectedTrack} large={largeDialog} albumCover={album.cover} />
+            {/* Large mode toggle button absolutely positioned in bottom right of dialog overlay */}
+            <button
+              onClick={() => setLargeDialog(l => !l)}
+              className="absolute bottom-6 right-6 px-3 py-1 rounded-lg font-bold shadow border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition text-xl flex items-center gap-1 z-30"
+              aria-label={largeDialog ? 'Show Smaller' : 'Show Larger'}
+            >
+              <span className={`${largeDialog ? 'opacity-50' : 'opacity-100'} transition`}>A</span>
+              <span className={`text-2xl ${largeDialog ? 'opacity-100' : 'opacity-50'} transition`}>A</span>
+            </button>
           </DialogContent>
         </Dialog>
       )}

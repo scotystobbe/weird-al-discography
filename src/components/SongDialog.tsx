@@ -11,15 +11,22 @@ interface Track {
 interface SongDialogProps {
   track: Track;
   large?: boolean;
+  albumCover?: string;
   onToggleLarge?: () => void;
 }
 
-export default function SongDialog({ track, large = false, onToggleLarge }: SongDialogProps) {
+export default function SongDialog({ track, large = false, albumCover, onToggleLarge }: SongDialogProps) {
   const [showFeatured, setShowFeatured] = useState(false);
 
   return (
-    <div className={`p-6 text-left bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl transition-all ${large ? 'text-3xl p-12' : ''} ${large ? 'space-y-8' : 'space-y-2'} relative`}>
-      <h3 className="text-xl font-bold">{track.title}</h3>
+    <div className={`relative p-6 text-left bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl transition-all ${large ? 'text-3xl p-12' : ''} ${large ? 'space-y-8' : 'space-y-2'}`}>
+      {/* Album art in large mode */}
+      {large && albumCover && (
+        <div className="flex justify-center mb-6">
+          <img src={albumCover} alt="Album cover" className="rounded-xl max-w-xs max-h-64 object-contain shadow-lg" />
+        </div>
+      )}
+      <h3 className={`font-bold ${large ? 'text-4xl' : 'text-xl'}`}>{track.title}</h3>
       <p><strong>Type:</strong> {track.type}</p>
       {track.originalSong && (
         <p><strong>Original Song:</strong> {track.originalSong}</p>
@@ -63,19 +70,6 @@ export default function SongDialog({ track, large = false, onToggleLarge }: Song
             Search Lyrics
           </button>
         </div>
-      )}
-
-      {/* Large mode toggle button with A icons in bottom right */}
-      {onToggleLarge && (
-        <button
-          onClick={onToggleLarge}
-          className={`absolute z-20 px-3 py-1 rounded-lg font-bold shadow border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition text-xl flex items-center gap-1
-            ${large ? 'bottom-10 right-10' : 'bottom-3 right-3'}`}
-          aria-label={large ? 'Show Smaller' : 'Show Larger'}
-        >
-          <span className={`${large ? 'opacity-50' : 'opacity-100'} transition`}>A</span>
-          <span className={`text-2xl ${large ? 'opacity-100' : 'opacity-50'} transition`}>A</span>
-        </button>
       )}
     </div>
   );
