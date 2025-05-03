@@ -20,16 +20,6 @@ export function useNowPlaying(token: string | null) {
   const { login, refreshAccessToken } = useSpotifyAuth();
   const fetchNowPlayingRef = useRef<() => Promise<void>>();
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const lastManualRefreshRef = useRef<number>(0);
-  const isTabActiveRef = useRef<boolean>(true);
-  const backoffTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const clearPolling = () => {
-    if (pollingIntervalRef.current) {
-      clearInterval(pollingIntervalRef.current);
-      pollingIntervalRef.current = null;
-    }
-  };
 
   const fetchNowPlaying = useCallback(async () => {
     if (!token) return;
@@ -47,16 +37,12 @@ export function useNowPlaying(token: string | null) {
       );
 
       if (res.status === 429) {
-        // Rate limited by Spotify
         setError("Rate limited by Spotify. Please wait a couple minutes.");
-        clearPolling();
-        if (backoffTimeoutRef.current) clearTimeout(backoffTimeoutRef.current);
-        backoffTimeoutRef.current = setTimeout(() => {
+        if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
+        pollingIntervalRef.current = setTimeout(() => {
           setError(null);
-          if (isTabActiveRef.current) {
-            fetchNowPlaying();
-            pollingIntervalRef.current = setInterval(fetchNowPlaying, 90000); // 90s
-          }
+          fetchNowPlaying();
+          pollingIntervalRef.current = setInterval(fetchNowPlaying, 45000); // 45s
         }, 120000); // 2 minutes
         return;
       }
@@ -116,40 +102,18 @@ export function useNowPlaying(token: string | null) {
   // Store the latest fetchNowPlaying in a ref for external use
   fetchNowPlayingRef.current = fetchNowPlaying;
 
-  // Polling logic: only when tab is active
   useEffect(() => {
     if (!token) return;
-    function handleVisibilityChange() {
-      isTabActiveRef.current = !document.hidden;
-      if (document.hidden) {
-        clearPolling();
-      } else {
-        fetchNowPlaying();
-        clearPolling();
-        pollingIntervalRef.current = setInterval(fetchNowPlaying, 90000); // 90s
-      }
-    }
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    // Start polling if tab is active
-    if (!document.hidden) {
-      fetchNowPlaying();
-      pollingIntervalRef.current = setInterval(fetchNowPlaying, 90000); // 90s
-    }
+    fetchNowPlaying();
+    if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
+    pollingIntervalRef.current = setInterval(fetchNowPlaying, 45000); // 45s
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      clearPolling();
-      if (backoffTimeoutRef.current) clearTimeout(backoffTimeoutRef.current);
+      if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
     };
   }, [token, fetchNowPlaying]);
 
-  // Expose a stable, debounced refresh function for manual refresh
+  // Expose a stable refresh function for manual refresh
   const refresh = useCallback(() => {
-    const now = Date.now();
-    if (now - lastManualRefreshRef.current < 10000) {
-      setError("Please wait a few seconds before refreshing again.");
-      return;
-    }
-    lastManualRefreshRef.current = now;
     setError(null);
     fetchNowPlaying();
   }, [fetchNowPlaying]);

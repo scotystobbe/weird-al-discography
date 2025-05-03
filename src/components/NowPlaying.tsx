@@ -28,12 +28,6 @@ export default function NowPlaying() {
           </div>
         )}
         <div className="min-w-0">
-          {loading && (
-            <div className="flex items-center gap-2 mb-1">
-              <span className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin inline-block"></span>
-              <span className="text-xs text-gray-500">Fetching now playing...</span>
-            </div>
-          )}
           {error && (
             <div className="text-xs text-red-500 mb-1">{error}</div>
           )}
