@@ -6,7 +6,7 @@ import PlaybackControls from "./PlaybackControls";
 
 export default function NowPlaying() {
   const { token } = useSpotifyAuth();
-  const { track, loading, error } = useNowPlaying(token);
+  const { track, loading, error, refresh } = useNowPlaying(token);
 
   if (!token) return null;
   if (loading) return <p className="text-sm text-gray-500 mb-4">Fetching now playing...</p>;
@@ -16,7 +16,14 @@ export default function NowPlaying() {
   return (
     <div className="flex items-center justify-between mb-4 p-3 border rounded-lg shadow-sm bg-white dark:bg-gray-800">
       <div className="flex items-center min-w-0 flex-1">
-        <img src={track.albumArt} alt={track.album} className="w-16 h-16 mr-4 rounded shrink-0" />
+        <img
+          src={track.albumArt}
+          alt={track.album}
+          className="w-16 h-16 mr-4 rounded shrink-0 cursor-pointer"
+          onClick={refresh}
+          aria-label="Refresh now playing from Spotify"
+          title="Refresh now playing from Spotify"
+        />
         <div className="min-w-0">
           <p className="text-base font-semibold break-words whitespace-normal" title={track.title}>
             {track.title}
@@ -28,7 +35,7 @@ export default function NowPlaying() {
         </div>
       </div>
       <div className="flex-shrink-0 ml-4">
-        <PlaybackControls token={token} />
+        <PlaybackControls token={token} onSkip={refresh} />
       </div>
     </div>
   );

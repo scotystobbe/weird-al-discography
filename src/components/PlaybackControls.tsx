@@ -5,9 +5,10 @@ import { useSpotifyAuth } from "../hooks/useSpotifyAuth";
 
 interface PlaybackControlsProps {
   token: string;
+  onSkip?: () => void;
 }
 
-export default function PlaybackControls({ token }: PlaybackControlsProps) {
+export default function PlaybackControls({ token, onSkip }: PlaybackControlsProps) {
   const [isPlaying, setIsPlaying] = useState<boolean | null>(null);
   const { login } = useSpotifyAuth();
 
@@ -32,7 +33,10 @@ export default function PlaybackControls({ token }: PlaybackControlsProps) {
       if (endpoint === "pause") setIsPlaying(false);
       if (endpoint === "next" || endpoint === "previous") {
         // Force refresh after a short delay to ensure Spotify updates
-        setTimeout(fetchPlaybackState, 600);
+        setTimeout(() => {
+          fetchPlaybackState();
+          if (onSkip) onSkip();
+        }, 600);
       }
     } catch (err) {
       // Optionally handle error
