@@ -6,6 +6,7 @@ interface NowPlayingTrack {
   artist: string;
   album: string;
   albumArt: string;
+  fullQuery: string;
 }
 
 export function useNowPlaying(token: string | null) {
@@ -32,11 +33,17 @@ export function useNowPlaying(token: string | null) {
           const data = await res.json();
           const item = data.item;
 
+          const title = item.name;
+          const artist = item.artists.map((a: any) => a.name).join(", ");
+          const album = item.album.name;
+          const albumArt = item.album.images[0]?.url ?? "";
+
           setTrack({
-            title: item.name,
-            artist: item.artists.map((a: any) => a.name).join(", "),
-            album: item.album.name,
-            albumArt: item.album.images[0]?.url ?? "",
+            title,
+            artist,
+            album,
+            albumArt,
+            fullQuery: `${title} ${artist}`,
           });
         } else {
           const errorText = await res.text();

@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import albumsData from "../data/albums.json";
 import { Input } from "../components/ui/input";
 import AlbumCard from "../components/AlbumCard";
 import SpotifyStatus from "../components/SpotifyStatus";
 import NowPlaying from "../components/NowPlaying";
+import { useNowPlaying } from "../hooks/useSpotifyNowPlaying";
+import { useSpotifyAuth } from "../hooks/useSpotifyAuth";
+
 
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [albumSort, setAlbumSort] = useState<'year' | 'alpha'>("year");
   const [trackSort, setTrackSort] = useState<'original' | 'alpha'>("original");
+
+  const { token } = useSpotifyAuth();
+  const { track } = useNowPlaying(token);
+
+  // Autofill search term when track updates
+  useEffect(() => {
+    if (track?.fullQuery) {
+      setSearchTerm(track.fullQuery);
+    }
+  }, [track]);
+
 
   let filteredAlbums = albumsData.albums.filter(album =>
     album.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -31,8 +45,8 @@ export default function Home() {
 
   return (
     <div className="p-4 max-w-screen-md mx-auto">
-       <SpotifyStatus />
-       <NowPlaying />
+      <SpotifyStatus />
+      <NowPlaying />
       <div className="relative mb-4">
         <Input
           placeholder="Search for albums or songs..."
