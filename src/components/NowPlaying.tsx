@@ -21,8 +21,8 @@ export default function NowPlaying() {
         {/* <p className="text-sm text-gray-600 dark:text-gray-300">{track.artist}</p> */}
         <p className="text-sm text-gray-600 dark:text-gray-300">{track.album}</p>
 
-        {/* ✅ Add playback controls here */}
-        {/* <PlaybackControls token={token} /> */}
+        {/* Playback controls integrated here */}
+        <PlaybackControls token={token} />
       </div>
     </div>
   );
