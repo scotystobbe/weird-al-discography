@@ -1,0 +1,49 @@
+{
+  "albums": [
+    {
+      "title": "Alapalooza",
+      "cover": "https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Weird_Al_Alapalooza.jpg/250px-Weird_Al_Alapalooza.jpg",
+      "tracks": [
+        {
+          "title": "Jimmy Webb, Al Yankovic"
+        },
+        {
+          "title": "Yankovic"
+        },
+        {
+          "title": "Anthony Kiedis, John Frusciante, Michael \"Flea\" Balzary, Chad Smith, Yankovic"
+        },
+        {
+          "title": "Yankovic"
+        },
+        {
+          "title": "Don Von Tress, Yankovic"
+        },
+        {
+          "title": "Yankovic"
+        },
+        {
+          "title": "Yankovic"
+        },
+        {
+          "title": "Steven Tyler, Anthony Pereira, Mark Hudson, Yankovic"
+        },
+        {
+          "title": "Yankovic"
+        },
+        {
+          "title": "Yankovic"
+        },
+        {
+          "title": "Yankovic"
+        },
+        {
+          "title": "Freddie Mercury, Yankovic"
+        },
+        {
+          "title": ""
+        }
+      ]
+    }
+  ]
+}
