@@ -141,13 +141,13 @@ export default function Home() {
             onClick={handleToggle}
             aria-pressed={useSpotifySearch}
             title="Toggle using Spotify track as search"
-            className="relative w-14 h-8 flex items-center focus:outline-none border border-black"
+            className="relative w-14 h-8 flex items-center focus:outline-none"
           >
             {/* Track */}
             <span className={`absolute left-0 top-0 w-full h-full rounded-full transition-colors duration-200 ${useSpotifySearch ? 'bg-[#8dc100]' : 'bg-gray-300 dark:bg-gray-700'}`}></span>
             {/* Thumb */}
             <span
-              className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow-md flex items-center justify-center transition-transform duration-200 ${useSpotifySearch ? 'translate-x-6' : ''}`}
+              className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white border-2 border-black shadow-md flex items-center justify-center transition-transform duration-200 ${useSpotifySearch ? 'translate-x-6' : ''}`}
             >
               {/* Spotify icon */}
               <img src="/spotify_icon.png" alt="Spotify" className="h-5 w-5" />
