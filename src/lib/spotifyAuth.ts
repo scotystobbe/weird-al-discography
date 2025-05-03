@@ -1,5 +1,5 @@
-export const SPOTIFY_CLIENT_ID = "1a9c2c5f41874e5b8b3a7ca45b84644b";
-export const REDIRECT_URI = "https://localhost:5173/callback";
+export const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+export const REDIRECT_URI = "https://weird-al-discography-buih5rfa5-scotystobbes-projects.vercel.app/callback";
 export const SCOPES = ["user-read-playback-state", "user-read-currently-playing"];
 
 function base64encode(buffer: ArrayBuffer) {
