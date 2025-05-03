@@ -52,7 +52,7 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
         if (lastIndex < start) {
           parts.push(text.slice(lastIndex, start));
         }
-        parts.push(<span key={i} className="font-semibold bg-yellow-200 dark:bg-yellow-700 rounded px-1">{text.slice(start, end + 1)}</span>);
+        parts.push(<span key={i} className="font-semibold">{text.slice(start, end + 1)}</span>);
         lastIndex = end + 1;
       });
       if (lastIndex < text.length) {
@@ -143,9 +143,6 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
                     className="text-left w-full rounded-lg px-3 py-2 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors border-0 outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-300"
                   >
                     {highlight(track.title, trackMatches[idx])}
-                    {trackMatches[idx] && trackMatches[idx].key && trackMatches[idx].key.includes('searchAliases') && (
-                      <span className="ml-2 px-2 py-0.5 text-xs bg-green-200 dark:bg-green-700 text-green-900 dark:text-green-100 rounded">Alias</span>
-                    )}
                     {trackMatches[idx] && trackMatches[idx].key && trackMatches[idx].key.includes('originalSong') && (
                       <span className="ml-2 px-2 py-0.5 text-xs bg-purple-200 dark:bg-purple-700 text-purple-900 dark:text-purple-100 rounded">Original Song</span>
                     )}
