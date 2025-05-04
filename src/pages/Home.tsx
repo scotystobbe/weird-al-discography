@@ -63,6 +63,21 @@ export default function Home() {
     }
   }, [track, isPlaying, useSpotifySearch]);
 
+  // Ensure search box is always in sync with Spotify track every second
+  useEffect(() => {
+    if (!useSpotifySearch) return;
+    const interval = setInterval(() => {
+      if (useSpotifySearch) {
+        if (track?.title && searchTerm !== track.title) {
+          setSearchTerm(track.title);
+        } else if (!track?.title && searchTerm !== "") {
+          setSearchTerm("");
+        }
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [useSpotifySearch, track?.title, searchTerm]);
+
   // Persist toggle
   useEffect(() => {
     localStorage.setItem('useSpotifySearch', useSpotifySearch ? 'true' : 'false');
