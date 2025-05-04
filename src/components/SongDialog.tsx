@@ -80,7 +80,7 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
       )}
       {/* Buttons for lyrics and featured songs (not in large mode) */}
       {!large && (
-        <div className="flex gap-3 mb-2 flex-nowrap">
+        <div className="absolute left-1/2 bottom-6 -translate-x-1/2 flex gap-3 flex-nowrap z-20">
           {Array.isArray(track.featuredSongs) && track.featuredSongs.length > 0 && (
             <button
               className="px-3 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition whitespace-nowrap"
