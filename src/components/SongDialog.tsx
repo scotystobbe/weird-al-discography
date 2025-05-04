@@ -78,41 +78,40 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
           )}
         </>
       )}
-      {Array.isArray(track.featuredSongs) && track.featuredSongs.length > 0 && (
-        <div className="mt-4">
-          {/* Hide both buttons in large mode, show both side by side in normal mode */}
-          {!large && (
-            <div className="flex gap-3 mb-2 flex-nowrap">
-              <button
-                className="px-3 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition whitespace-nowrap"
-                onClick={() => setShowFeatured(v => !v)}
-                aria-expanded={showFeatured}
-              >
-                {showFeatured ? 'Hide Songs' : 'Show Songs'}
-              </button>
-              <button
-                onClick={() =>
-                  window.open(
-                    `https://www.google.com/search?q=${encodeURIComponent(
-                      `Weird Al Yankovic ${track.title} lyrics`
-                    )}`,
-                    "_blank"
-                  )
-                }
-                className="px-3 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition whitespace-nowrap"
-              >
-                Search Lyrics
-              </button>
-            </div>
+      {/* Buttons for lyrics and featured songs (not in large mode) */}
+      {!large && (
+        <div className="flex gap-3 mb-2 flex-nowrap">
+          {Array.isArray(track.featuredSongs) && track.featuredSongs.length > 0 && (
+            <button
+              className="px-3 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition whitespace-nowrap"
+              onClick={() => setShowFeatured(v => !v)}
+              aria-expanded={showFeatured}
+            >
+              {showFeatured ? 'Hide Songs' : 'Show Songs'}
+            </button>
           )}
-          {showFeatured && !large && (
-            <ul className="list-disc list-inside mt-2 space-y-1 bg-gray-50 dark:bg-gray-700 rounded-lg p-2">
-              {track.featuredSongs.map((song, i) => (
-                <li key={i} className="text-gray-800 dark:text-gray-200">{song}</li>
-              ))}
-            </ul>
-          )}
+          <button
+            onClick={() =>
+              window.open(
+                `https://www.google.com/search?q=${encodeURIComponent(
+                  `Weird Al Yankovic ${track.title} lyrics`
+                )}`,
+                "_blank"
+              )
+            }
+            className="px-3 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition whitespace-nowrap"
+          >
+            Search Lyrics
+          </button>
         </div>
+      )}
+      {/* Featured songs list */}
+      {showFeatured && !large && Array.isArray(track.featuredSongs) && track.featuredSongs.length > 0 && (
+        <ul className="list-disc list-inside mt-2 space-y-1 bg-gray-50 dark:bg-gray-700 rounded-lg p-2">
+          {track.featuredSongs.map((song, i) => (
+            <li key={i} className="text-gray-800 dark:text-gray-200">{song}</li>
+          ))}
+        </ul>
       )}
     </div>
   );
