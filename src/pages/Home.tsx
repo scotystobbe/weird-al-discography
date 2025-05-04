@@ -54,8 +54,12 @@ export default function Home() {
 
   // Autofill search term and trigger search when track updates or playback state changes
   useEffect(() => {
-    if (useSpotifySearch && track?.title) {
-      setSearchTerm(track.title);
+    if (useSpotifySearch) {
+      if (track?.title) {
+        setSearchTerm(track.title);
+      } else {
+        setSearchTerm("");
+      }
     }
   }, [track, isPlaying, useSpotifySearch]);
 
