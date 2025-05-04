@@ -1,12 +1,12 @@
 import React from "react";
 import { useSpotifyAuth } from "../hooks/useSpotifyAuth";
-import { useNowPlaying } from "../hooks/useSpotifyNowPlaying";
+import { useSpotifyPlayer } from "../hooks/useSpotifyPlayer";
 import PlaybackControls from "./PlaybackControls";
 
 
 export default function NowPlaying() {
   const { token } = useSpotifyAuth();
-  const { track, loading, error, refresh } = useNowPlaying(token);
+  const { player, track, isReady, error } = useSpotifyPlayer(token);
 
   if (!token) return null;
 
@@ -19,11 +19,10 @@ export default function NowPlaying() {
               src={track.albumArt}
               alt={track.album}
               className="w-16 h-16 rounded shrink-0 cursor-pointer"
-              onClick={refresh}
-              aria-label="Refresh now playing from Spotify"
-              title="Refresh now playing from Spotify"
+              aria-label="Spotify album art"
+              title="Spotify album art"
             />
-            {/* Overlay broken icon if error is 429/cooldown */}
+            {/* Overlay broken icon if error is 429/cooldown (not needed with SDK, but keep for fallback) */}
             {error === "Cooling down." && (
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded">
                 {/* Broken icon SVG */}
@@ -45,21 +44,20 @@ export default function NowPlaying() {
           )}
           {track ? (
             <>
-              <p className="text-base font-semibold break-words whitespace-normal" title={track.title}>
-                {track.title}
+              <p className="text-base font-semibold break-words whitespace-normal" title={track.name}>
+                {track.name}
               </p>
-              {/* <p className="text-sm text-gray-600 dark:text-gray-300">{track.artist}</p> */}
               <p className="text-sm text-gray-600 dark:text-gray-300 break-words whitespace-normal" title={track.album}>
                 {track.album}
               </p>
             </>
-          ) : !loading && !error ? (
+          ) : (
             <p className="text-sm text-gray-500 dark:text-gray-400">Nothing is currently playing on Spotify.</p>
-          ) : null}
+          )}
         </div>
       </div>
       <div className="flex-shrink-0 ml-4">
-        <PlaybackControls token={token} onSkip={refresh} />
+        <PlaybackControls player={player} isReady={isReady} />
       </div>
     </div>
   );
