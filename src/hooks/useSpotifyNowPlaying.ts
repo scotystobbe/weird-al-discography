@@ -13,6 +13,7 @@ interface NowPlayingTrack {
 
 export function useNowPlaying(token: string | null) {
   const [track, setTrack] = useState<NowPlayingTrack | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // NOTE: If you see a linter error here about arguments, it is incorrect. useSpotifyAuth takes no arguments.
@@ -49,8 +50,10 @@ export function useNowPlaying(token: string | null) {
 
       if (res.status === 204) {
         setTrack(null); // nothing playing
+        setIsPlaying(null);
       } else if (res.ok) {
         const data = await res.json();
+        setIsPlaying(!!data.is_playing);
         const item = data.item;
 
         // If item is missing but there is a device and context, keep the previous track
@@ -120,5 +123,5 @@ export function useNowPlaying(token: string | null) {
     fetchNowPlaying();
   }, [fetchNowPlaying]);
 
-  return { track, loading, error, refresh };
+  return { track, isPlaying, loading, error, refresh };
 }

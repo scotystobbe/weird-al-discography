@@ -39,7 +39,7 @@ export default function Home() {
   });
 
   const { token } = useSpotifyAuth();
-  const { track } = useNowPlaying(token);
+  const { track, isPlaying } = useNowPlaying(token);
 
   // Handle toggle: fill or clear search box on toggle
   const handleToggle = () => {
@@ -52,12 +52,12 @@ export default function Home() {
     }
   };
 
-  // Autofill search term and trigger search when track updates
+  // Autofill search term and trigger search when track updates or playback state changes
   useEffect(() => {
     if (useSpotifySearch && track?.title) {
       setSearchTerm(track.title);
     }
-  }, [track, useSpotifySearch]);
+  }, [track, isPlaying, useSpotifySearch]);
 
   // Persist toggle
   useEffect(() => {
