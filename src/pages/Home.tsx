@@ -54,10 +54,10 @@ export default function Home() {
 
   // Autofill search term and trigger search when track updates
   useEffect(() => {
-    if (track?.title) {
+    if (useSpotifySearch && track?.title) {
       setSearchTerm(track.title);
     }
-  }, [track]);
+  }, [track, useSpotifySearch]);
 
   // Persist toggle
   useEffect(() => {
