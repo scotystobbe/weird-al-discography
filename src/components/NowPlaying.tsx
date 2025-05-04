@@ -13,7 +13,18 @@ export default function NowPlaying() {
   return (
     <div className="flex items-center justify-between mb-4 p-3 border rounded-lg shadow-sm bg-white dark:bg-gray-800 min-h-[80px]">
       <div className="flex items-center min-w-0 flex-1">
-        {track ? (
+        {!isReady && (
+          <div className="flex flex-col items-center justify-center w-16 h-16 mr-4">
+            <button
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded text-xs mb-1"
+              onClick={() => window.open('https://open.spotify.com/', '_blank')}
+            >
+              Open Spotify & Transfer Playback
+            </button>
+            <span className="text-xs text-gray-500 text-center">Select 'Web Player' in Spotify app</span>
+          </div>
+        )}
+        {isReady && track ? (
           <div className="relative w-16 h-16 mr-4">
             <img
               src={track.albumArt}
@@ -32,7 +43,7 @@ export default function NowPlaying() {
               </div>
             )}
           </div>
-        ) : (
+        ) : !isReady ? null : (
           <div className="w-16 h-16 mr-4 rounded shrink-0 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
             <span className="text-gray-400 dark:text-gray-500 text-2xl">♪</span>
           </div>
@@ -42,7 +53,7 @@ export default function NowPlaying() {
           {error && error !== "Cooling down." && (
             <div className="text-xs text-red-500 mb-1">{error}</div>
           )}
-          {track ? (
+          {isReady && track ? (
             <>
               <p className="text-base font-semibold break-words whitespace-normal" title={track.name}>
                 {track.name}
@@ -51,9 +62,9 @@ export default function NowPlaying() {
                 {track.album}
               </p>
             </>
-          ) : (
+          ) : isReady ? (
             <p className="text-sm text-gray-500 dark:text-gray-400">Nothing is currently playing on Spotify.</p>
-          )}
+          ) : null}
         </div>
       </div>
       <div className="flex-shrink-0 ml-4">
