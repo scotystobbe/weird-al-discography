@@ -13,13 +13,14 @@ interface SongDialogProps {
   large?: boolean;
   albumCover?: string;
   onToggleLarge?: () => void;
+  renderBottomLeftButtons?: React.ReactNode;
 }
 
-export default function SongDialog({ track, large = false, albumCover, onToggleLarge }: SongDialogProps) {
+export default function SongDialog({ track, large = false, albumCover, onToggleLarge, renderBottomLeftButtons }: SongDialogProps) {
   const [showFeatured, setShowFeatured] = useState(false);
 
   return (
-    <div className={`relative p-6 text-left bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl transition-all ${large ? 'text-3xl p-12' : ''} ${large ? 'space-y-8' : 'space-y-2'}${!large ? ' pb-14' : ''}`}>
+    <div className={`relative p-6 text-left bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl transition-all ${large ? 'text-3xl p-12' : ''} ${large ? 'space-y-8' : 'space-y-2'}${!large ? ' pb-24' : ''}`}>
       {/* Album art in large mode */}
       {large && albumCover && (
         <div className="flex justify-center mb-6">
@@ -78,40 +79,11 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
           )}
         </>
       )}
-      {/* Buttons for lyrics and featured songs (not in large mode) */}
-      {!large && (
-        <div className="absolute left-1/2 bottom-6 -translate-x-1/2 flex gap-3 flex-nowrap z-20">
-          {Array.isArray(track.featuredSongs) && track.featuredSongs.length > 0 && (
-            <button
-              className="px-3 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition whitespace-nowrap"
-              onClick={() => setShowFeatured(v => !v)}
-              aria-expanded={showFeatured}
-            >
-              {showFeatured ? 'Hide Songs' : 'Show Songs'}
-            </button>
-          )}
-          <button
-            onClick={() =>
-              window.open(
-                `https://www.google.com/search?q=${encodeURIComponent(
-                  `Weird Al Yankovic ${track.title} lyrics`
-                )}`,
-                "_blank"
-              )
-            }
-            className="px-3 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition whitespace-nowrap"
-          >
-            Search Lyrics
-          </button>
+      {/* Bottom left buttons and lyrics icon */}
+      {renderBottomLeftButtons && (
+        <div className="absolute left-6 bottom-6 flex items-center gap-3 z-20">
+          {renderBottomLeftButtons}
         </div>
-      )}
-      {/* Featured songs list */}
-      {showFeatured && !large && Array.isArray(track.featuredSongs) && track.featuredSongs.length > 0 && (
-        <ul className="list-disc list-inside mt-2 space-y-1 bg-gray-50 dark:bg-gray-700 rounded-lg p-2">
-          {track.featuredSongs.map((song, i) => (
-            <li key={i} className="text-gray-800 dark:text-gray-200">{song}</li>
-          ))}
-        </ul>
       )}
     </div>
   );

@@ -9,6 +9,7 @@ interface Track {
   originalArtist?: string;
   originalSong?: string;
   searchAliases?: string[];
+  featuredSongs?: string[];
 }
 
 interface Album {
@@ -28,6 +29,7 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [largeDialog, setLargeDialog] = useState(false);
+  const [showFeatured, setShowFeatured] = useState(false);
 
   // Auto-expand if searchTerm matches album or any track
   useEffect(() => {
@@ -139,14 +141,43 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
             </button>
             <SongDialog track={selectedTrack} large={largeDialog} albumCover={album.cover} />
             {/* Large mode toggle button absolutely positioned in bottom right of dialog overlay */}
-            <button
-              onClick={() => setLargeDialog(l => !l)}
-              className="absolute bottom-6 right-6 px-3 py-1 rounded-lg font-bold shadow border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition text-xl flex items-center gap-1 z-30"
-              aria-label={largeDialog ? 'Show Smaller' : 'Show Larger'}
-            >
-              <span className={`${largeDialog ? 'opacity-50' : 'opacity-100'} transition`}>A</span>
-              <span className={`text-2xl ${largeDialog ? 'opacity-100' : 'opacity-50'} transition`}>A</span>
-            </button>
+            <div className="absolute bottom-6 right-6 flex items-center gap-6 z-30">
+              {Array.isArray(selectedTrack.featuredSongs) && selectedTrack.featuredSongs.length > 0 && (
+                <button
+                  className="px-3 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition whitespace-nowrap"
+                  onClick={() => setShowFeatured(v => !v)}
+                  aria-expanded={showFeatured}
+                >
+                  {showFeatured ? 'Hide Songs' : 'Show Songs'}
+                </button>
+              )}
+              <a
+                href={`https://www.google.com/search?q=${encodeURIComponent(selectedTrack.title + ' Weird Al Yankovic Lyrics')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center opacity-60 hover:opacity-90 transition-opacity ml-1"
+                title="Search lyrics on Google"
+                tabIndex={0}
+              >
+                <img src="/lyrics_icon.png" alt="Lyrics" className="h-7 w-7" style={{ filter: 'invert(1) brightness(2)' }} />
+              </a>
+              <button
+                onClick={() => setLargeDialog(l => !l)}
+                className="px-3 py-1 rounded-lg font-bold shadow border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition text-xl flex items-center gap-1"
+                aria-label={largeDialog ? 'Show Smaller' : 'Show Larger'}
+              >
+                <span className={`${largeDialog ? 'opacity-50' : 'opacity-100'} transition`}>A</span>
+                <span className={`text-2xl ${largeDialog ? 'opacity-100' : 'opacity-50'} transition`}>A</span>
+              </button>
+            </div>
+            {/* Show featured songs list if toggled */}
+            {showFeatured && Array.isArray(selectedTrack.featuredSongs) && selectedTrack.featuredSongs.length > 0 && (
+              <ul className="absolute left-6 bottom-24 list-disc list-inside mt-2 space-y-1 bg-gray-50 dark:bg-gray-700 rounded-lg p-4 z-40 shadow-lg">
+                {selectedTrack.featuredSongs.map((song, i) => (
+                  <li key={i} className="text-gray-800 dark:text-gray-200">{song}</li>
+                ))}
+              </ul>
+            )}
           </DialogContent>
         </Dialog>
       )}
