@@ -6,7 +6,7 @@ import SpotifyStatus from "../components/SpotifyStatus";
 import NowPlaying from "../components/NowPlaying";
 import { useSpotifyAuth } from "../hooks/useSpotifyAuth";
 import Fuse from "fuse.js";
-import { useSpotifyPlayer } from "../hooks/useSpotifyPlayer";
+import { useNowPlaying } from "../hooks/useSpotifyNowPlaying";
 
 // Utility to normalize titles for flexible search
 function normalizeTitle(title: string): string {
@@ -39,14 +39,14 @@ export default function Home() {
   });
 
   const { token } = useSpotifyAuth();
-  const { track } = useSpotifyPlayer(token);
+  const { track } = useNowPlaying(token);
 
   // Handle toggle: fill or clear search box on toggle
   const handleToggle = () => {
     const newValue = !useSpotifySearch;
     setUseSpotifySearch(newValue);
     if (newValue) {
-      if (track?.name) setSearchTerm(track.name);
+      if (track?.title) setSearchTerm(track.title);
     } else {
       setSearchTerm("");
     }
@@ -54,8 +54,8 @@ export default function Home() {
 
   // Autofill search term and trigger search when track updates
   useEffect(() => {
-    if (track?.name) {
-      setSearchTerm(track.name);
+    if (track?.title) {
+      setSearchTerm(track.title);
     }
   }, [track]);
 
