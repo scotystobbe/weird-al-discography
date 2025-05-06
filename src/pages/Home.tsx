@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import albumsData from "../data/albums.json";
 import { Input } from "../components/ui/input";
 import AlbumCard from "../components/AlbumCard";
 import SpotifyStatus from "../components/SpotifyStatus";
@@ -36,8 +37,6 @@ export default function Home() {
     const stored = localStorage.getItem('useSpotifySearch');
     return stored === null ? true : stored === 'true';
   });
-  const [albums, setAlbums] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
 
   const { token } = useSpotifyAuth();
   const { track, isPlaying } = useNowPlaying(token);
@@ -84,17 +83,8 @@ export default function Home() {
     localStorage.setItem('useSpotifySearch', useSpotifySearch ? 'true' : 'false');
   }, [useSpotifySearch]);
 
-  useEffect(() => {
-    fetch('/api/albums')
-      .then(res => res.json())
-      .then(data => {
-        setAlbums(data);
-        setLoading(false);
-      });
-  }, []);
-
   // Fuzzy search setup
-  const fuse = new Fuse(albums, {
+  const fuse = new Fuse(albumsData.albums, {
     keys: [
       "tracks.title",
       "tracks.searchAliases"
@@ -105,11 +95,14 @@ export default function Home() {
   });
 
   let filteredAlbums = searchTerm
-    ? fuse.search(searchTerm).map(result => ({
-        ...result.item,
-        _matches: result.matches,
-      }))
-    : albums;
+    ? fuse.search(searchTerm).map(result => {
+        // Attach match info for UI hints
+        return {
+          ...result.item,
+          _matches: result.matches,
+        };
+      })
+    : albumsData.albums;
 
   // Sort albums
   filteredAlbums = [...filteredAlbums].sort((a, b) => {
@@ -121,33 +114,6 @@ export default function Home() {
       return aSort.localeCompare(bSort);
     }
   });
-
-  if (loading) return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-      <svg
-        className="animate-spin"
-        width="48"
-        height="48"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        />
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-        />
-      </svg>
-    </div>
-  );
 
   return (
     <div className="p-4 max-w-screen-md mx-auto">
