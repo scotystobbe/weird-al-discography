@@ -19,7 +19,7 @@ export function useNowPlaying(token: string | null) {
   // NOTE: If you see a linter error here about arguments, it is incorrect. useSpotifyAuth takes no arguments.
   // Try restarting your editor or clearing the TypeScript cache if the error persists.
   const { login, refreshAccessToken } = useSpotifyAuth();
-  const fetchNowPlayingRef = useRef<() => Promise<void>>();
+  const fetchNowPlayingRef = useRef<() => Promise<void>>(null);
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const fetchNowPlaying = useCallback(async () => {

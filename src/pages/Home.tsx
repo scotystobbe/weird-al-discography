@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import albumsData from "../data/albums.json";
 import { Input } from "../components/ui/input";
 import AlbumCard from "../components/AlbumCard";
 import SpotifyStatus from "../components/SpotifyStatus";
@@ -37,6 +36,8 @@ export default function Home() {
     const stored = localStorage.getItem('useSpotifySearch');
     return stored === null ? true : stored === 'true';
   });
+  const [albums, setAlbums] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const { token } = useSpotifyAuth();
   const { track, isPlaying } = useNowPlaying(token);
@@ -83,8 +84,17 @@ export default function Home() {
     localStorage.setItem('useSpotifySearch', useSpotifySearch ? 'true' : 'false');
   }, [useSpotifySearch]);
 
+  useEffect(() => {
+    fetch('/api/albums')
+      .then(res => res.json())
+      .then(data => {
+        setAlbums(data);
+        setLoading(false);
+      });
+  }, []);
+
   // Fuzzy search setup
-  const fuse = new Fuse(albumsData.albums, {
+  const fuse = new Fuse(albums, {
     keys: [
       "tracks.title",
       "tracks.searchAliases"
@@ -95,14 +105,11 @@ export default function Home() {
   });
 
   let filteredAlbums = searchTerm
-    ? fuse.search(searchTerm).map(result => {
-        // Attach match info for UI hints
-        return {
-          ...result.item,
-          _matches: result.matches,
-        };
-      })
-    : albumsData.albums;
+    ? fuse.search(searchTerm).map(result => ({
+        ...result.item,
+        _matches: result.matches,
+      }))
+    : albums;
 
   // Sort albums
   filteredAlbums = [...filteredAlbums].sort((a, b) => {
@@ -114,6 +121,8 @@ export default function Home() {
       return aSort.localeCompare(bSort);
     }
   });
+
+  if (loading) return <div>Loading albums...</div>;
 
   return (
     <div className="p-4 max-w-screen-md mx-auto">
