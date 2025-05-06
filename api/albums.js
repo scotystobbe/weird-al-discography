@@ -1,8 +1,7 @@
-import { PrismaClient } from '@prisma/client';
-
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-export default async function handler(req: any, res: any) {
+module.exports = async (req, res) => {
   console.log('API /api/albums called with method:', req.method);
   if (req.method === 'GET') {
     try {
@@ -18,4 +17,4 @@ export default async function handler(req: any, res: any) {
   } else {
     res.status(405).json({ message: 'Method not allowed' });
   }
-}
+};
