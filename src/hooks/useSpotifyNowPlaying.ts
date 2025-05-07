@@ -16,6 +16,14 @@ export function useNowPlaying(token: string | null) {
   const [isPlaying, setIsPlaying] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [history, setHistory] = useState<string[]>(() => {
+    try {
+      const stored = localStorage.getItem("spotify_song_history");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
   // NOTE: If you see a linter error here about arguments, it is incorrect. useSpotifyAuth takes no arguments.
   // Try restarting your editor or clearing the TypeScript cache if the error persists.
   const { login, refreshAccessToken } = useSpotifyAuth();
@@ -85,6 +93,13 @@ export function useNowPlaying(token: string | null) {
           ) {
             return prev; // No change
           }
+          // Update history if new track
+          setHistory(prevHistory => {
+            if (prevHistory[0] === displayTitle) return prevHistory;
+            const newHistory = [displayTitle, ...prevHistory.filter(t => t !== displayTitle)].slice(0, 10);
+            localStorage.setItem("spotify_song_history", JSON.stringify(newHistory));
+            return newHistory;
+          });
           return {
             title: displayTitle,
             artist,
@@ -123,5 +138,5 @@ export function useNowPlaying(token: string | null) {
     fetchNowPlaying();
   }, [fetchNowPlaying]);
 
-  return { track, isPlaying, loading, error, refresh };
+  return { track, isPlaying, loading, error, refresh, history };
 }
