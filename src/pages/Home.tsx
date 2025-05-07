@@ -138,18 +138,18 @@ export default function Home() {
           fill="none"
           stroke="url(#rainbow)"
           strokeWidth="6"
-          strokeDasharray="8 8"
+          strokeDasharray="60 32"
           strokeLinecap="round"
         />
         <defs>
           <linearGradient id="rainbow" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#ff0000" />
-            <stop offset="0.17" stopColor="#ff9900" />
-            <stop offset="0.33" stopColor="#ffee00" />
-            <stop offset="0.5" stopColor="#33ff00" />
-            <stop offset="0.67" stopColor="#00cfff" />
-            <stop offset="0.83" stopColor="#3300ff" />
-            <stop offset="1" stopColor="#cc00ff" />
+            <stop offset="0%" stopColor="#ff0000" />
+            <stop offset="16%" stopColor="#ff9900" />
+            <stop offset="33%" stopColor="#ffee00" />
+            <stop offset="50%" stopColor="#33ff00" />
+            <stop offset="66%" stopColor="#00cfff" />
+            <stop offset="83%" stopColor="#3300ff" />
+            <stop offset="100%" stopColor="#cc00ff" />
           </linearGradient>
         </defs>
       </svg>

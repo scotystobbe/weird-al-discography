@@ -25,20 +25,36 @@ export default function NowPlaying() {
           <path d="M12 7v5l4 2" />
         </svg>
       </button>
-      {/* History Dropdown */}
+      {/* History Dropdown and Backdrop */}
       {showHistory && (
-        <div className="absolute right-2 bottom-[-180px] z-10 w-64 max-w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-lg p-3">
-          <div className="font-semibold mb-2 text-sm text-gray-700 dark:text-gray-200">Last 10 Songs</div>
-          {history.length === 0 ? (
-            <div className="text-xs text-gray-400">No history yet.</div>
-          ) : (
-            <ol className="list-decimal list-inside space-y-1">
-              {history.map((title, i) => (
-                <li key={i} className="truncate text-xs text-gray-700 dark:text-gray-200" title={title}>{title}</li>
-              ))}
-            </ol>
-          )}
-        </div>
+        <>
+          {/* Backdrop for outside click */}
+          <div
+            className="fixed inset-0 z-10"
+            style={{ background: 'transparent' }}
+            onClick={() => setShowHistory(false)}
+          />
+          <div className="absolute right-2 bottom-[-180px] z-20 w-64 max-w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-lg p-3">
+            <button
+              className="absolute top-1 right-1 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-xs p-1"
+              aria-label="Close history"
+              onClick={() => setShowHistory(false)}
+              tabIndex={0}
+            >
+              &#10005;
+            </button>
+            <div className="font-semibold mb-2 text-sm text-gray-700 dark:text-gray-200">Last 10 Songs</div>
+            {history.length === 0 ? (
+              <div className="text-xs text-gray-400">No history yet.</div>
+            ) : (
+              <ol className="list-decimal list-inside space-y-1">
+                {history.map((title, i) => (
+                  <li key={i} className="truncate text-xs text-gray-700 dark:text-gray-200" title={title}>{title}</li>
+                ))}
+              </ol>
+            )}
+          </div>
+        </>
       )}
       <div className="flex items-center min-w-0 flex-1">
         {track ? (
