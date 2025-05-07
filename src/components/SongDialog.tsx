@@ -58,6 +58,22 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
                 {track.originalSong && track.originalArtist ? ' by ' : ''}
                 {track.originalArtist}
               </div>
+              {/* Show Spotify button only in regular mode */}
+              {!large && track.originalSong && track.originalArtist && (
+                <div className="mt-2">
+                  <a
+                    href={`https://open.spotify.com/search/${encodeURIComponent(track.originalSong + ' ' + track.originalArtist)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-gray-300 text-gray-400 hover:bg-gray-400 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600 transition whitespace-nowrap mt-1 shadow"
+                    title="Open Original in Spotify"
+                    tabIndex={0}
+                  >
+                    <img src="/spotify_icon.png" alt="Spotify" className="h-5 w-5 grayscale" />
+                    Open Original in Spotify
+                  </a>
+                </div>
+              )}
             </div>
           )}
           {track.type === 'Style Parody' && track.originalArtist && (
