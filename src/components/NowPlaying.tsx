@@ -42,11 +42,11 @@ export default function NowPlaying() {
       )}
       <div className="flex items-center min-w-0 flex-1">
         {track ? (
-          <div className="relative w-16 h-16 mr-4">
+          <div className="relative w-16 h-16 mr-4 flex-shrink-0 flex items-center justify-center">
             <img
               src={track.albumArt}
               alt={track.album}
-              className="w-16 h-16 rounded shrink-0 cursor-pointer"
+              className="w-16 h-16 rounded object-cover"
               onClick={refresh}
               aria-label="Refresh now playing from Spotify"
               title="Refresh now playing from Spotify"
@@ -75,10 +75,11 @@ export default function NowPlaying() {
           ) : null}
         </div>
       </div>
-      <div className="flex-shrink-0 ml-4">
+      {/* Remove playback controls for now */}
+      {/* <div className="flex-shrink-0 ml-4">
         <PlaybackControls token={token} onSkip={refresh} />
-      </div>
-      {/* Spotify logo in bottom left, green color */}
+      </div> */}
+      {/* Spotify logo in bottom left, full color */}
       <img
         src="/spotify_icon.svg"
         alt="Spotify logo"
