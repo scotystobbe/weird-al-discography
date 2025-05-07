@@ -24,7 +24,7 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
       {/* Album art in large mode */}
       {large && albumCover && (
         <div className="flex justify-center mb-6">
-          <img src={albumCover} alt="Album cover" className="rounded-xl max-w-xs max-h-64 object-contain shadow-lg" />
+          <img src={albumCover} alt="Album cover" className="rounded-xl max-w-md max-h-52 object-contain shadow-lg" />
         </div>
       )}
       <div className="flex items-center gap-2 mb-2">
@@ -33,49 +33,35 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
       {large ? (
         <div>
           <div className="flex items-center gap-2"><span>Type:</span><span className="font-bold">{track.type}</span></div>
-          {track.originalSong && (
+          {track.type === 'Parody' && (track.originalSong || track.originalArtist) && (
             <div className="mt-4">
-              <div>Original Song:</div>
-              <div className="font-bold">{track.originalSong}</div>
+              <div>Original:</div>
+              <div className="font-bold block mt-1">
+                {track.originalSong}
+                {track.originalSong && track.originalArtist ? ' by ' : ''}
+                {track.originalArtist}
+              </div>
             </div>
           )}
-          {track.originalArtist && (
-            track.type === 'Style Parody' ? (
-              <div className="mt-4 font-bold">{track.originalArtist}</div>
-            ) : (
-              <div className="mt-4">
-                <div>Original Artist:</div>
-                <div className="font-bold">{track.originalArtist}</div>
-              </div>
-            )
+          {track.type === 'Style Parody' && track.originalArtist && (
+            <div className="mt-4 font-bold">{track.originalArtist}</div>
           )}
         </div>
       ) : (
         <>
           <p><strong>Type:</strong> {track.type}</p>
-          {track.originalSong && (
-            <p className="flex items-center gap-2">
-              <strong>Original Song:</strong><span>{track.originalSong}</span>
-              {track.originalArtist && (
-                <a
-                  href={`https://open.spotify.com/search/${encodeURIComponent(track.originalSong + ' ' + track.originalArtist)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center opacity-50 hover:opacity-80 transition-opacity ml-1"
-                  title="Search on Spotify"
-                  tabIndex={0}
-                >
-                  <img src="/spotify_icon.png" alt="Spotify" className="h-5 w-5 grayscale" />
-                </a>
-              )}
-            </p>
+          {track.type === 'Parody' && (track.originalSong || track.originalArtist) && (
+            <div className="mt-2">
+              <div><strong>Original:</strong></div>
+              <div className="font-normal block mt-1">
+                {track.originalSong}
+                {track.originalSong && track.originalArtist ? ' by ' : ''}
+                {track.originalArtist}
+              </div>
+            </div>
           )}
-          {track.originalArtist && (
-            track.type === 'Style Parody' ? (
-              <p className="font-bold">{track.originalArtist}</p>
-            ) : (
-              <p><strong>Original Artist:</strong> {track.originalArtist}</p>
-            )
+          {track.type === 'Style Parody' && track.originalArtist && (
+            <p className="font-bold">{track.originalArtist}</p>
           )}
         </>
       )}
