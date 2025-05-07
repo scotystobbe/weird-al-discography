@@ -125,41 +125,36 @@ export default function Home() {
 
   if (loading) return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-      <svg
-        width="64"
-        height="64"
-        viewBox="0 0 64 64"
-        style={{ display: 'block', animation: 'spin 1s linear infinite' }}
-      >
-        <circle
-          cx="32"
-          cy="32"
-          r="28"
-          fill="none"
-          stroke="url(#rainbow)"
-          strokeWidth="6"
-          strokeDasharray="60 32"
-          strokeLinecap="round"
-        />
-        <defs>
-          <linearGradient id="rainbow" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#ff0000" />
-            <stop offset="16%" stopColor="#ff9900" />
-            <stop offset="33%" stopColor="#ffee00" />
-            <stop offset="50%" stopColor="#33ff00" />
-            <stop offset="66%" stopColor="#00cfff" />
-            <stop offset="83%" stopColor="#3300ff" />
-            <stop offset="100%" stopColor="#cc00ff" />
-          </linearGradient>
-        </defs>
-      </svg>
+      <div className="rainbow-spinner" />
       <style>{`
+        .rainbow-spinner {
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          background: conic-gradient(
+            red,
+            orange,
+            yellow,
+            lime,
+            cyan,
+            blue,
+            magenta,
+            red
+          );
+          mask-image: radial-gradient(circle at center, transparent 50%, black 52%);
+          -webkit-mask-image: radial-gradient(circle at center, transparent 50%, black 52%);
+          animation: spin 1s linear infinite;
+          box-shadow: 0 0 20px 4px rgba(255, 255, 255, 0.2),
+                      0 0 40px 8px rgba(255, 255, 255, 0.1) inset;
+        }
+  
         @keyframes spin {
           100% { transform: rotate(360deg); }
         }
       `}</style>
     </div>
   );
+  
 
   return (
     <div className="p-4 max-w-screen-md mx-auto">
