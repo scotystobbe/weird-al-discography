@@ -27,7 +27,7 @@ export default function NowPlaying() {
       </button>
       {/* History Dropdown */}
       {showHistory && (
-        <div className="absolute right-2 bottom-12 z-10 w-64 max-w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-lg p-3">
+        <div className="absolute right-2 bottom-[-180px] z-10 w-64 max-w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded shadow-lg p-3">
           <div className="font-semibold mb-2 text-sm text-gray-700 dark:text-gray-200">Last 10 Songs</div>
           {history.length === 0 ? (
             <div className="text-xs text-gray-400">No history yet.</div>
