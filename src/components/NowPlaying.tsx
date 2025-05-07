@@ -5,8 +5,8 @@ import PlaybackControls from "./PlaybackControls";
 
 
 export default function NowPlaying() {
-  const { token } = useSpotifyAuth();
-  const { track, loading, error, refresh, history } = useNowPlaying(token);
+  const { token, refreshAccessToken } = useSpotifyAuth();
+  const { track, loading, error, refresh, history, forceRefresh, reconnecting, lastError, isPlaying } = useNowPlaying(token);
   const [showHistory, setShowHistory] = useState(false);
 
   if (!token) return null;
@@ -59,7 +59,16 @@ export default function NowPlaying() {
           </div>
         )}
         <div className="min-w-0 flex-1">
-          {error && (
+          {reconnecting && (
+            <div className="text-xs text-yellow-500 mb-1 flex items-center gap-1">
+              <svg className="animate-spin w-4 h-4 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" opacity="0.2"/><path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" strokeWidth="4" fill="none"/></svg>
+              Reconnecting to Spotify...
+            </div>
+          )}
+          {lastError && (
+            <div className="text-xs text-red-500 mb-1">{lastError}</div>
+          )}
+          {error && !lastError && (
             <div className="text-xs text-red-500 mb-1">{error}</div>
           )}
           {track ? (
@@ -71,19 +80,25 @@ export default function NowPlaying() {
                 {track.album}
               </p>
             </>
-          ) : !loading && !error ? (
+          ) : !loading && !error && !reconnecting ? (
             <p className="text-sm text-gray-500 dark:text-gray-400">Nothing is currently playing on Spotify.</p>
           ) : null}
         </div>
       </div>
       <div className="flex-shrink-0 ml-4">
-        <PlaybackControls token={token} onSkip={refresh} />
+        <PlaybackControls
+          token={token}
+          isPlaying={isPlaying}
+          refreshAccessToken={refreshAccessToken}
+          forceRefresh={forceRefresh}
+          onSkip={refresh}
+        />
       </div>
       {/* Subtle Spotify logo in bottom left */}
       <img
         src="/spotify_icon.svg"
         alt="Spotify logo"
-        className="absolute bottom-2 left-2 w-5 h-5 opacity-60 pointer-events-none select-none"
+        className="absolute bottom-2 left-2 w-5 h-5 pointer-events-none select-none"
         aria-hidden="true"
       />
     </div>

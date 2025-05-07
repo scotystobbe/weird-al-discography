@@ -24,11 +24,13 @@ export function useNowPlaying(token: string | null) {
       return [];
     }
   });
-  // NOTE: If you see a linter error here about arguments, it is incorrect. useSpotifyAuth takes no arguments.
-  // Try restarting your editor or clearing the TypeScript cache if the error persists.
+  const [reconnecting, setReconnecting] = useState(false);
+  const [lastError, setLastError] = useState<string | null>(null);
+  const emptyCountRef = useRef(0);
   const { login, refreshAccessToken } = useSpotifyAuth();
   const fetchNowPlayingRef = useRef<() => Promise<void>>(null);
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const fetchNowPlaying = useCallback(async () => {
     if (!token) return;
@@ -39,50 +41,53 @@ export function useNowPlaying(token: string | null) {
         "https://api.spotify.com/v1/me/player",
         token,
         () => {
-          // Automatically re-authenticate if refresh fails
           login();
         },
         refreshAccessToken
       );
-
       if (res.status === 429) {
         setError(null);
+        setReconnecting(true);
         if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
         pollingIntervalRef.current = setTimeout(() => {
           setError(null);
+          setReconnecting(false);
           fetchNowPlaying();
-          pollingIntervalRef.current = setInterval(fetchNowPlaying, 45000); // 45s
-        }, 120000); // 2 minutes
+          pollingIntervalRef.current = setInterval(fetchNowPlaying, 45000);
+        }, 120000);
         return;
       }
-
       if (res.status === 204) {
-        setTrack(null); // nothing playing
-        setIsPlaying(null);
+        emptyCountRef.current += 1;
+        if (emptyCountRef.current >= 3) {
+          setTrack(null);
+          setIsPlaying(null);
+        }
+        setReconnecting(emptyCountRef.current > 1);
       } else if (res.ok) {
         const data = await res.json();
         setIsPlaying(!!data.is_playing);
         const item = data.item;
-
-        // If item is missing but there is a device and context, keep the previous track
         if (!item) {
-          // If there are no devices or no context, clear track
           if (!data.device || data.device === null) {
-            setTrack(null);
+            emptyCountRef.current += 1;
+            if (emptyCountRef.current >= 3) {
+              setTrack(null);
+              setIsPlaying(null);
+            }
+            setReconnecting(emptyCountRef.current > 1);
             return;
           }
-          // Otherwise, keep previous track (do not set to null)
+          setReconnecting(false);
           return;
         }
-
+        emptyCountRef.current = 0;
+        setReconnecting(false);
         const title = item.name;
         const artist = item.artists.map((a: any) => a.name).join(", ");
         const album = item.album.name;
         const albumArt = item.album.images[0]?.url ?? "";
-        // Clean the title for display (remove parentheticals)
         const displayTitle = title.replace(/\s*\([^)]*\)/g, "").trim();
-
-        // Only update if the track has actually changed
         setTrack(prev => {
           if (
             prev &&
@@ -91,9 +96,8 @@ export function useNowPlaying(token: string | null) {
             prev.album === album &&
             prev.albumArt === albumArt
           ) {
-            return prev; // No change
+            return prev;
           }
-          // Update history if new track
           setHistory(prevHistory => {
             if (prevHistory[0] === displayTitle) return prevHistory;
             const newHistory = [displayTitle, ...prevHistory.filter(t => t !== displayTitle)].slice(0, 10);
@@ -111,9 +115,13 @@ export function useNowPlaying(token: string | null) {
       } else {
         const errorText = await res.text();
         setError(errorText);
+        setLastError(errorText);
+        setReconnecting(true);
       }
     } catch (err: any) {
       setError(err.message);
+      setLastError(err.message);
+      setReconnecting(true);
     } finally {
       setLoading(false);
     }
@@ -122,13 +130,29 @@ export function useNowPlaying(token: string | null) {
   // Store the latest fetchNowPlaying in a ref for external use
   fetchNowPlayingRef.current = fetchNowPlaying;
 
+  // Fast polling for a short period (e.g. after playback command)
+  const forceRefresh = useCallback((durationMs = 5000) => {
+    if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
+    let elapsed = 0;
+    fetchNowPlaying();
+    pollingIntervalRef.current = setInterval(() => {
+      fetchNowPlaying();
+      elapsed += 1000;
+      if (elapsed >= durationMs) {
+        if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
+        pollingIntervalRef.current = setInterval(fetchNowPlaying, 45000);
+      }
+    }, 1000);
+  }, [fetchNowPlaying]);
+
   useEffect(() => {
     if (!token) return;
     fetchNowPlaying();
     if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
-    pollingIntervalRef.current = setInterval(fetchNowPlaying, 45000); // 45s
+    pollingIntervalRef.current = setInterval(fetchNowPlaying, 45000);
     return () => {
       if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current);
+      if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
     };
   }, [token, fetchNowPlaying]);
 
@@ -138,5 +162,5 @@ export function useNowPlaying(token: string | null) {
     fetchNowPlaying();
   }, [fetchNowPlaying]);
 
-  return { track, isPlaying, loading, error, refresh, history };
+  return { track, isPlaying, loading, error, refresh, history, forceRefresh, reconnecting, lastError };
 }
