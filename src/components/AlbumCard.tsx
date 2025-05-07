@@ -172,7 +172,7 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
             </div>
             {/* Show featured songs list if toggled */}
             {showFeatured && Array.isArray(selectedTrack.featuredSongs) && selectedTrack.featuredSongs.length > 0 && (
-              <ul className="absolute left-6 bottom-24 list-disc list-inside mt-2 space-y-1 bg-gray-50 dark:bg-gray-700 rounded-lg p-4 z-40 shadow-lg">
+              <ul className="absolute left-6 bottom-24 list-disc list-inside mt-2 space-y-1 bg-gray-50 dark:bg-gray-700 rounded-lg p-4 pr-6 z-40 shadow-lg max-h-60 overflow-y-auto">
                 {selectedTrack.featuredSongs.map((song, i) => (
                   <li key={i} className="text-gray-800 dark:text-gray-200">{song}</li>
                 ))}
