@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import albumsData from "../data/albums.json";
 import { Input } from "../components/ui/input";
 import AlbumCard from "../components/AlbumCard";
 import SpotifyStatus from "../components/SpotifyStatus";
@@ -37,6 +36,8 @@ export default function Home() {
     const stored = localStorage.getItem('useSpotifySearch');
     return stored === null ? true : stored === 'true';
   });
+  const [albums, setAlbums] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const { token } = useSpotifyAuth();
   const { track, isPlaying } = useNowPlaying(token);
@@ -83,26 +84,33 @@ export default function Home() {
     localStorage.setItem('useSpotifySearch', useSpotifySearch ? 'true' : 'false');
   }, [useSpotifySearch]);
 
-  // Fuzzy search setup
-  const fuse = new Fuse(albumsData.albums, {
-    keys: [
-      "tracks.title",
-      "tracks.searchAliases"
-    ],
-    threshold: 0.4,
-    includeMatches: true,
-    minMatchCharLength: 2,
-  });
+  useEffect(() => {
+    fetch('/api/albums')
+      .then(res => res.json())
+      .then(data => {
+        setAlbums(data);
+        setLoading(false);
+      });
+  }, []);
 
-  let filteredAlbums = searchTerm
-    ? fuse.search(searchTerm).map(result => {
-        // Attach match info for UI hints
+  let filteredAlbums: any[] = [];
+  if (searchTerm) {
+    const lowerSearch = searchTerm.toLowerCase();
+    filteredAlbums = albums
+      .map(album => {
+        const matchingTracks = album.tracks.filter((track: any) =>
+          track.title.toLowerCase().includes(lowerSearch) ||
+          (track.searchAliases && track.searchAliases.some((alias: string) => alias.toLowerCase().includes(lowerSearch)))
+        );
         return {
-          ...result.item,
-          _matches: result.matches,
+          ...album,
+          tracks: matchingTracks,
         };
       })
-    : albumsData.albums;
+      .filter(album => album.tracks.length > 0);
+  } else {
+    filteredAlbums = albums;
+  }
 
   // Sort albums
   filteredAlbums = [...filteredAlbums].sort((a, b) => {
@@ -114,6 +122,44 @@ export default function Home() {
       return aSort.localeCompare(bSort);
     }
   });
+
+  if (loading) return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+      <svg
+        width="64"
+        height="64"
+        viewBox="0 0 64 64"
+        style={{ display: 'block', animation: 'spin 1s linear infinite' }}
+      >
+        <circle
+          cx="32"
+          cy="32"
+          r="28"
+          fill="none"
+          stroke="url(#rainbow)"
+          strokeWidth="6"
+          strokeDasharray="8 8"
+          strokeLinecap="round"
+        />
+        <defs>
+          <linearGradient id="rainbow" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#ff0000" />
+            <stop offset="0.17" stopColor="#ff9900" />
+            <stop offset="0.33" stopColor="#ffee00" />
+            <stop offset="0.5" stopColor="#33ff00" />
+            <stop offset="0.67" stopColor="#00cfff" />
+            <stop offset="0.83" stopColor="#3300ff" />
+            <stop offset="1" stopColor="#cc00ff" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <style>{`
+        @keyframes spin {
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
+  );
 
   return (
     <div className="p-4 max-w-screen-md mx-auto">

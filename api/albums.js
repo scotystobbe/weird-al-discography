@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
   if (req.method === 'GET') {
     try {
       const albums = await prisma.album.findMany({
-        include: { tracks: true },
+        include: { tracks: { orderBy: { id: 'asc' } } },
         orderBy: { year: 'asc' }
       });
       res.status(200).json(albums);
