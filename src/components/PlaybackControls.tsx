@@ -5,15 +5,12 @@ import { useSpotifyAuth } from "../hooks/useSpotifyAuth";
 
 interface PlaybackControlsProps {
   token: string;
-  isPlaying: boolean | null;
-  refreshAccessToken: (() => Promise<string | null>) | null;
-  forceRefresh: (durationMs?: number) => void;
   onSkip?: () => void;
 }
 
-export default function PlaybackControls({ token, isPlaying, refreshAccessToken, forceRefresh, onSkip }: PlaybackControlsProps) {
+export default function PlaybackControls({ token, onSkip }: PlaybackControlsProps) {
+  const [isPlaying, setIsPlaying] = useState<boolean | null>(null);
   const { login } = useSpotifyAuth();
-  const [error, setError] = useState<string | null>(null);
 
   const sendCommand = async (endpoint: string) => {
     let method: string = "POST";
@@ -21,7 +18,6 @@ export default function PlaybackControls({ token, isPlaying, refreshAccessToken,
       method = "PUT";
     }
     try {
-      setError(null);
       await fetchSpotifyApi(
         `https://api.spotify.com/v1/me/player/${endpoint}`,
         token,
@@ -30,20 +26,48 @@ export default function PlaybackControls({ token, isPlaying, refreshAccessToken,
             login();
           }
         },
-        refreshAccessToken,
+        null,
         { method }
       );
-      // After command, force fast polling for 5s
-      forceRefresh(5000);
+      if (endpoint === "play") setIsPlaying(true);
+      if (endpoint === "pause") setIsPlaying(false);
       if (endpoint === "next" || endpoint === "previous") {
+        // Force refresh after a short delay to ensure Spotify updates
         setTimeout(() => {
+          fetchPlaybackState();
           if (onSkip) onSkip();
         }, 600);
       }
-    } catch (err: any) {
-      setError(err.message || "Failed to send command to Spotify");
+    } catch (err) {
+      // Optionally handle error
     }
   };
+
+  const fetchPlaybackState = async () => {
+    try {
+      const res = await fetchSpotifyApi(
+        "https://api.spotify.com/v1/me/player",
+        token,
+        () => {
+          if (window.confirm("Spotify session expired. Re-authenticate?")) {
+            login();
+          }
+        }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        setIsPlaying(data.is_playing);
+      }
+    } catch (err) {
+      console.error("Failed to fetch playback state", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchPlaybackState();
+    const interval = setInterval(fetchPlaybackState, 30000);
+    return () => clearInterval(interval);
+  }, [token]);
 
   const togglePlayPause = () => {
     sendCommand(isPlaying ? "pause" : "play");
@@ -76,7 +100,6 @@ export default function PlaybackControls({ token, isPlaying, refreshAccessToken,
       >
         <img src="/skip_end_icon.svg" alt="Next" className="w-6 h-6 filter invert" />
       </button>
-      {error && <div className="text-xs text-red-500 ml-2">{error}</div>}
     </div>
   );
 }
