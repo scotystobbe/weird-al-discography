@@ -170,14 +170,14 @@ export default function NowPlaying() {
             Connect to Spotify
           </button>
         ) : !track || !matchedTrack ? (
-          <p style={{ textAlign: 'center', color: '#aaa', fontSize: '2.5rem' }}>No track currently playing or no match found in discography.</p>
+          <p style={{ textAlign: 'center', color: '#aaa', fontSize: '2.5rem' }}>Nothing playing...</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             {track.artworkUrl && (
               <img
                 src={track.artworkUrl}
                 alt={matchedTrack.title}
-                style={{ width: 180, height: 180, borderRadius: 8, objectFit: 'cover', marginBottom: 24 }}
+                style={{ width: 210, height: 210, borderRadius: 8, objectFit: 'cover', marginBottom: 24 }}
               />
             )}
             <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: 8, textAlign: 'center', color: '#fff', letterSpacing: '0.5px', lineHeight: 1.15 }}>{matchedTrack.title}</h2>
