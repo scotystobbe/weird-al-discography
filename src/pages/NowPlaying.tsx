@@ -140,8 +140,7 @@ export default function NowPlaying() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#18181b', color: '#fff', padding: 24 }}>
-      <h1 style={{ textAlign: 'center', fontSize: 32, marginBottom: 32 }}>Now Playing</h1>
-      <div style={{ maxWidth: 600, margin: '0 auto', padding: 24, background: '#232326', borderRadius: 16 }}>
+      <div style={{ maxWidth: 600, margin: '0 auto', padding: 0 }}>
         {initialLoading ? (
           <div style={{ textAlign: 'center', padding: 32 }}>Loading...</div>
         ) : !isAuthenticated ? (
@@ -159,7 +158,7 @@ export default function NowPlaying() {
               <img
                 src={track.artworkUrl}
                 alt={matchedTrack.title}
-                style={{ width: 180, height: 180, borderRadius: 16, objectFit: 'cover', marginBottom: 24, boxShadow: '0 2px 12px #0008' }}
+                style={{ width: 180, height: 180, borderRadius: 16, objectFit: 'cover', marginBottom: 24 }}
               />
             )}
             <h2 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8, textAlign: 'center' }}>{matchedTrack.title}</h2>
