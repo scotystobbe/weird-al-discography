@@ -1,5 +1,20 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    },
+    {
+      "source": "/api/spotify-proxy",
+      "destination": "/api/[...spotify-proxy].js"
+    },
+    {
+      "source": "/api/spotify-proxy/(.*)",
+      "destination": "/api/[...spotify-proxy].js?proxyPath=$1"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
   ]
 }
