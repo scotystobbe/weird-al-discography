@@ -70,7 +70,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/browse" element={<Browse />} />
         <Route path="/now-playing" element={<NowPlaying />} />
-        <Route path="/" element={<Navigate to="/browse" replace />} />
+        <Route path="/" element={<Navigate to="/now-playing" replace />} />
       </Routes>
     </>
   );
