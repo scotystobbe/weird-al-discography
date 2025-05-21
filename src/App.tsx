@@ -11,7 +11,7 @@ function TabNav() {
       style={{
         width: '100%',
         background: '#18181b',
-        borderBottom: '1px solid #232326',
+        borderBottom: 'none',
         position: 'sticky',
         top: 0,
         zIndex: 50,

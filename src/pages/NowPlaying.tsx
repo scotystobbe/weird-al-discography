@@ -181,7 +181,7 @@ export default function NowPlaying() {
               />
             )}
             <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: 8, textAlign: 'center', color: '#fff', letterSpacing: '0.5px', lineHeight: 1.15 }}>{matchedTrack.title}</h2>
-            <p style={{ fontSize: '2.5rem', marginBottom: 6, textAlign: 'center', color: '#b0b0b0', fontWeight: 400, letterSpacing: '0.5px', lineHeight: 1.15 }}>{matchedTrack.album?.title}</p>
+            <p style={{ fontSize: '0.9rem', marginBottom: 4, textAlign: 'center', color: '#b0b0b0', fontWeight: 400, letterSpacing: '0.5px', lineHeight: 1.15 }}>{matchedTrack.album?.title}</p>
             {getTypeDisplay(matchedTrack)}
           </div>
         )}
