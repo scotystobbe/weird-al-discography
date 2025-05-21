@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-require('dotenv').config();
+// require('dotenv').config(); // Removed for Vercel deployment
 const url = require('url');
 
 function setCookie(res, name, value, options = {}) {
