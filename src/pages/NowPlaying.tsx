@@ -39,6 +39,7 @@ export default function NowPlaying() {
   const [initialLoading, setInitialLoading] = useState(true);
   const lastTrackId = useRef<string | null>(null);
   const [matchedTrack, setMatchedTrack] = useState<any>(null);
+  const [showPolkaSongs, setShowPolkaSongs] = useState(false);
 
   // Fetch all tracks from DB
   const fetcher = (url: string) => fetch(url).then(res => res.json());
@@ -87,6 +88,56 @@ export default function NowPlaying() {
     window.location.href = '/api/spotify-proxy/login';
   };
 
+  // Helper for type display
+  function getTypeDisplay(track: any) {
+    if (!track) return null;
+    if (track.type === 'Parody') {
+      return (
+        <div style={{ fontSize: 16, marginTop: 12, color: '#bbb', textAlign: 'center' }}>
+          Parody of <strong>{track.originalSong}</strong> by <strong>{track.originalArtist}</strong>
+        </div>
+      );
+    }
+    if (track.type === 'Style Parody') {
+      // Remove 'Style of' from the originalArtist string if present
+      let artist = track.originalArtist || '';
+      artist = artist.replace(/^Style of\s*/i, '').trim();
+      return (
+        <div style={{ fontSize: 16, marginTop: 12, color: '#bbb', textAlign: 'center' }}>
+          Style Parody of <strong>{artist}</strong>
+        </div>
+      );
+    }
+    if (track.type === 'Original') {
+      return (
+        <div style={{ fontSize: 16, marginTop: 12, color: '#bbb', textAlign: 'center' }}>
+          Original Song
+        </div>
+      );
+    }
+    if (track.type === 'Polka Medley') {
+      return (
+        <div style={{ fontSize: 16, marginTop: 12, color: '#bbb', textAlign: 'center' }}>
+          Polka Medley
+          <button
+            style={{ marginLeft: 12, padding: '2px 10px', borderRadius: 6, background: '#333', color: '#fff', border: 'none', cursor: 'pointer', fontSize: 14 }}
+            onClick={() => setShowPolkaSongs(s => !s)}
+          >
+            {showPolkaSongs ? 'Hide Songs' : 'Show Songs'}
+          </button>
+          {showPolkaSongs && track.featuredSongs && track.featuredSongs.length > 0 && (
+            <ul style={{ marginTop: 10, paddingLeft: 0, listStyle: 'none', textAlign: 'center' }}>
+              {track.featuredSongs.map((song: string, idx: number) => (
+                <li key={idx} style={{ color: '#eee', fontSize: 15, marginBottom: 2 }}>{song}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      );
+    }
+    return null;
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: '#18181b', color: '#fff', padding: 24 }}>
       <h1 style={{ textAlign: 'center', fontSize: 32, marginBottom: 32 }}>Now Playing</h1>
@@ -100,50 +151,21 @@ export default function NowPlaying() {
           >
             Connect to Spotify
           </button>
-        ) : !track ? (
-          <p style={{ textAlign: 'center', color: '#aaa' }}>No track currently playing. Play something on Spotify!</p>
+        ) : !track || !matchedTrack ? (
+          <p style={{ textAlign: 'center', color: '#aaa' }}>No track currently playing or no match found in discography.</p>
         ) : (
-          <>
-            <section style={{ marginBottom: 32 }}>
-              <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 12 }}>From Spotify</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <h3 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8, textAlign: 'center' }}>{track.title}</h3>
-                <p style={{ fontSize: 18, marginBottom: 4, textAlign: 'center' }}>{track.artist}</p>
-                <p style={{ fontSize: 16, marginBottom: 12, textAlign: 'center', color: '#bbb' }}>{track.album}</p>
-                <iframe
-                  src={`https://open.spotify.com/embed/track/${track.id}`}
-                  width="300"
-                  height="80"
-                  frameBorder="0"
-                  allow="encrypted-media"
-                  style={{ borderRadius: 8, marginTop: 16 }}
-                  title="Spotify Player"
-                ></iframe>
-              </div>
-            </section>
-            <section>
-              <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 12 }}>Matched from DB</h2>
-              {matchedTrack ? (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, textAlign: 'center' }}>{matchedTrack.title}</h3>
-                  <p style={{ fontSize: 18, marginBottom: 4, textAlign: 'center' }}>{matchedTrack.album?.title}</p>
-                  <p style={{ fontSize: 16, marginBottom: 8, textAlign: 'center', color: '#bbb' }}>{matchedTrack.type}</p>
-                  {matchedTrack.originalSong && (
-                    <p style={{ fontSize: 16, marginBottom: 4, textAlign: 'center', color: '#bbb' }}>
-                      <strong>Original Song:</strong> {matchedTrack.originalSong}
-                    </p>
-                  )}
-                  {matchedTrack.originalArtist && (
-                    <p style={{ fontSize: 16, marginBottom: 4, textAlign: 'center', color: '#bbb' }}>
-                      <strong>Original Artist:</strong> {matchedTrack.originalArtist}
-                    </p>
-                  )}
-                </div>
-              ) : (
-                <div style={{ textAlign: 'center', color: '#aaa' }}>No match found in discography.</div>
-              )}
-            </section>
-          </>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {track.artworkUrl && (
+              <img
+                src={track.artworkUrl}
+                alt={matchedTrack.title}
+                style={{ width: 180, height: 180, borderRadius: 16, objectFit: 'cover', marginBottom: 24, boxShadow: '0 2px 12px #0008' }}
+              />
+            )}
+            <h2 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8, textAlign: 'center' }}>{matchedTrack.title}</h2>
+            <p style={{ fontSize: 20, marginBottom: 4, textAlign: 'center', color: '#bbb' }}>{matchedTrack.album?.title}</p>
+            {getTypeDisplay(matchedTrack)}
+          </div>
         )}
         {error && <div style={{ color: '#ff6b6b', marginTop: 16, textAlign: 'center' }}>{error}</div>}
       </div>
