@@ -5,18 +5,56 @@ import NowPlaying from "./pages/NowPlaying";
 
 function TabNav() {
   const location = useLocation();
+  const isActive = (path: string) => location.pathname === path;
   return (
-    <nav className="w-full flex justify-center border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-black sticky top-0 z-50">
-      <div className="flex gap-4 py-2">
+    <nav
+      style={{
+        width: '100%',
+        background: '#18181b',
+        borderBottom: '1px solid #232326',
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <div style={{ display: 'flex', gap: 24, padding: '0.5rem 0' }}>
         <Link
           to="/browse"
-          className={`px-4 py-2 rounded-t font-semibold transition-colors duration-150 ${location.pathname === "/browse" ? "bg-gray-100 dark:bg-gray-800 text-blue-600 dark:text-red-400" : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900"}`}
+          style={{
+            padding: '8px 32px',
+            borderRadius: 12,
+            fontWeight: isActive('/browse') ? 700 : 400,
+            color: isActive('/browse') ? '#fff' : '#888',
+            background: isActive('/browse') ? '#232326' : 'transparent',
+            boxShadow: isActive('/browse') ? '0 2px 12px #0002' : 'none',
+            border: isActive('/browse') ? '1.5px solid #333' : 'none',
+            transition: 'all 0.15s',
+            fontSize: '1.3rem',
+            letterSpacing: '0.5px',
+            textDecoration: 'none',
+            outline: 'none',
+          }}
         >
           Browse
         </Link>
         <Link
           to="/now-playing"
-          className={`px-4 py-2 rounded-t font-semibold transition-colors duration-150 ${location.pathname === "/now-playing" ? "bg-gray-100 dark:bg-gray-800 text-blue-600 dark:text-red-400" : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900"}`}
+          style={{
+            padding: '8px 32px',
+            borderRadius: 12,
+            fontWeight: isActive('/now-playing') ? 700 : 400,
+            color: isActive('/now-playing') ? '#fff' : '#888',
+            background: isActive('/now-playing') ? '#232326' : 'transparent',
+            boxShadow: isActive('/now-playing') ? '0 2px 12px #0002' : 'none',
+            border: isActive('/now-playing') ? '1.5px solid #333' : 'none',
+            transition: 'all 0.15s',
+            fontSize: '1.3rem',
+            letterSpacing: '0.5px',
+            textDecoration: 'none',
+            outline: 'none',
+          }}
         >
           Now Playing
         </Link>
@@ -40,8 +78,10 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <Router>
-      <AppRoutes />
-    </Router>
+    <div style={{ minHeight: '100vh', background: '#18181b' }}>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </div>
   );
 }

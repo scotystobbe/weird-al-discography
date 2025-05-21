@@ -126,9 +126,28 @@ export default function NowPlaying() {
             {showPolkaSongs ? 'Hide Songs' : 'Show Songs'}
           </button>
           {showPolkaSongs && track.featuredSongs && track.featuredSongs.length > 0 && (
-            <ul style={{ marginTop: 10, paddingLeft: 0, listStyle: 'none', textAlign: 'center' as const }}>
+            <ul style={{
+              marginTop: 10,
+              paddingLeft: 0,
+              listStyle: 'none',
+              textAlign: 'center' as const,
+              maxWidth: 600,
+              margin: '10px auto 0 auto',
+            }}>
               {track.featuredSongs.map((song: string, idx: number) => (
-                <li key={idx} style={{ color: '#eee', fontSize: '2rem', marginBottom: 2, lineHeight: 1.15 }}>{song}</li>
+                <li
+                  key={idx}
+                  style={{
+                    color: '#eee',
+                    fontSize: '2rem',
+                    lineHeight: 1.3,
+                    padding: '10px 0',
+                    borderBottom: idx !== track.featuredSongs.length - 1 ? '1px solid #333' : 'none',
+                    background: idx % 2 === 0 ? 'rgba(255,255,255,0.03)' : 'transparent',
+                  }}
+                >
+                  {song}
+                </li>
               ))}
             </ul>
           )}
