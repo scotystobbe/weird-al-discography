@@ -1,10 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/api/test/(.*)",
-      "destination": "/api/test/[...catchall].js"
-    },
-    {
       "source": "/api/spotify-proxy",
       "destination": "/api/[...spotify-proxy].js"
     },
