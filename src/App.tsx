@@ -78,7 +78,27 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <div style={{ minHeight: '100vh', background: '#18181b' }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        background: '#18181b',
+        paddingTop: 'calc(env(safe-area-inset-top, 20px))',
+        boxSizing: 'border-box',
+      }}
+    >
+      <div className="safe-area-top-overlay" />
+      <style>{`
+        .safe-area-top-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: env(safe-area-inset-top, 20px);
+          background: #18181b;
+          z-index: 100;
+          pointer-events: none;
+        }
+      `}</style>
       <Router>
         <AppRoutes />
       </Router>
