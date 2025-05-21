@@ -180,8 +180,8 @@ export default function NowPlaying() {
                 style={{ width: 210, height: 210, borderRadius: 8, objectFit: 'cover', marginBottom: 24 }}
               />
             )}
-            <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: 8, textAlign: 'center', color: '#fff', letterSpacing: '0.5px', lineHeight: 1.15 }}>{matchedTrack.title}</h2>
-            <p style={{ fontSize: '1.2rem', marginBottom: 4, textAlign: 'center', color: '#b0b0b0', fontWeight: 400, letterSpacing: '0.5px', lineHeight: 1.15 }}>{matchedTrack.album?.title}</p>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: 16, textAlign: 'center', color: '#fff', letterSpacing: '0.5px', lineHeight: 1.15 }}>{matchedTrack.title}</h2>
+            <p style={{ fontSize: '1.2rem', marginBottom: 8, textAlign: 'center', color: '#b0b0b0', fontWeight: 400, letterSpacing: '0.5px', lineHeight: 1.15 }}>{matchedTrack.album?.title}</p>
             {getTypeDisplay(matchedTrack)}
           </div>
         )}
