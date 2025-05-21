@@ -90,7 +90,7 @@ export default function NowPlaying() {
 
   // Helper for type display
   function getTypeDisplay(track: any) {
-    const detailStyle = { fontSize: '3.5rem', marginTop: 24, color: '#bbb', textAlign: 'center' as const, fontWeight: 400 as const, letterSpacing: '1px' };
+    const detailStyle = { fontSize: '2.5rem', marginTop: 12, color: '#bbb', textAlign: 'center' as const, fontWeight: 400 as const, letterSpacing: '0.5px', lineHeight: 1.15 };
     if (!track) return null;
     if (track.type === 'Parody') {
       return (
@@ -120,15 +120,15 @@ export default function NowPlaying() {
         <div style={detailStyle}>
           Polka Medley
           <button
-            style={{ marginLeft: 24, padding: '6px 24px', borderRadius: 8, background: '#333', color: '#fff', border: 'none', cursor: 'pointer', fontSize: '2.5rem', fontWeight: 500 }}
+            style={{ marginLeft: 18, padding: '4px 16px', borderRadius: 8, background: '#333', color: '#fff', border: 'none', cursor: 'pointer', fontSize: '1.5rem', fontWeight: 500 }}
             onClick={() => setShowPolkaSongs(s => !s)}
           >
             {showPolkaSongs ? 'Hide Songs' : 'Show Songs'}
           </button>
           {showPolkaSongs && track.featuredSongs && track.featuredSongs.length > 0 && (
-            <ul style={{ marginTop: 18, paddingLeft: 0, listStyle: 'none', textAlign: 'center' as const }}>
+            <ul style={{ marginTop: 10, paddingLeft: 0, listStyle: 'none', textAlign: 'center' as const }}>
               {track.featuredSongs.map((song: string, idx: number) => (
-                <li key={idx} style={{ color: '#eee', fontSize: '3.2rem', marginBottom: 4 }}>{song}</li>
+                <li key={idx} style={{ color: '#eee', fontSize: '2rem', marginBottom: 2, lineHeight: 1.15 }}>{song}</li>
               ))}
             </ul>
           )}
@@ -142,31 +142,31 @@ export default function NowPlaying() {
     <div style={{ minHeight: '100vh', background: '#18181b', color: '#fff', padding: 24 }}>
       <div style={{ maxWidth: 900, margin: '0 auto', padding: 0 }}>
         {initialLoading ? (
-          <div style={{ textAlign: 'center', padding: 32, fontSize: '3.5rem' }}>Loading...</div>
+          <div style={{ textAlign: 'center', padding: 32, fontSize: '2.5rem' }}>Loading...</div>
         ) : !isAuthenticated ? (
           <button
             onClick={handleConnect}
-            style={{ padding: '18px 48px', background: '#1db954', color: '#fff', borderRadius: 12, fontSize: '3.5rem', fontWeight: 700, border: 'none', cursor: 'pointer' }}
+            style={{ padding: '14px 32px', background: '#1db954', color: '#fff', borderRadius: 12, fontSize: '2.5rem', fontWeight: 700, border: 'none', cursor: 'pointer' }}
           >
             Connect to Spotify
           </button>
         ) : !track || !matchedTrack ? (
-          <p style={{ textAlign: 'center', color: '#aaa', fontSize: '3.5rem' }}>No track currently playing or no match found in discography.</p>
+          <p style={{ textAlign: 'center', color: '#aaa', fontSize: '2.5rem' }}>No track currently playing or no match found in discography.</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             {track.artworkUrl && (
               <img
                 src={track.artworkUrl}
                 alt={matchedTrack.title}
-                style={{ width: 180, height: 180, borderRadius: 24, objectFit: 'cover', marginBottom: 40 }}
+                style={{ width: 180, height: 180, borderRadius: 8, objectFit: 'cover', marginBottom: 24 }}
               />
             )}
-            <h2 style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: 16, textAlign: 'center', color: '#fff', letterSpacing: '1px' }}>{matchedTrack.title}</h2>
-            <p style={{ fontSize: '3.5rem', marginBottom: 12, textAlign: 'center', color: '#b0b0b0', fontWeight: 400, letterSpacing: '1px' }}>{matchedTrack.album?.title}</p>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: 8, textAlign: 'center', color: '#fff', letterSpacing: '0.5px', lineHeight: 1.15 }}>{matchedTrack.title}</h2>
+            <p style={{ fontSize: '2.5rem', marginBottom: 6, textAlign: 'center', color: '#b0b0b0', fontWeight: 400, letterSpacing: '0.5px', lineHeight: 1.15 }}>{matchedTrack.album?.title}</p>
             {getTypeDisplay(matchedTrack)}
           </div>
         )}
-        {error && <div style={{ color: '#ff6b6b', marginTop: 32, textAlign: 'center', fontSize: '3.5rem' }}>{error}</div>}
+        {error && <div style={{ color: '#ff6b6b', marginTop: 24, textAlign: 'center', fontSize: '2.5rem' }}>{error}</div>}
       </div>
     </div>
   );
