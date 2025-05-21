@@ -1,44 +1,50 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import useSWR from 'swr';
 
-function EditableStarRating({ rating, onRatingChange, size = 32 }: any) {
-  return (
-    <div style={{ display: 'flex', gap: 8, margin: '16px 0', justifyContent: 'center' }}>
-      {[1, 2, 3, 4, 5].map((star) => (
-        <span
-          key={star}
-          style={{ fontSize: size, cursor: 'pointer', color: star <= rating ? '#FFD700' : '#CCC' }}
-          onClick={() => {
-            if (star === 1 && rating === 1) {
-              onRatingChange(null);
-            } else {
-              onRatingChange(star);
-            }
-          }}
-        >
-          {star <= rating ? '★' : '☆'}
-        </span>
-      ))}
-    </div>
-  );
+function normalize(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, "") // Remove parentheticals
+    .replace(/[^a-z0-9\s]/gi, "") // Remove punctuation
+    .replace(/\s+/g, " ") // Collapse whitespace
+    .trim();
+}
+
+function fuzzyMatch(a: string, b: string) {
+  if (!a || !b) return false;
+  a = normalize(a);
+  b = normalize(b);
+  if (a.includes(b) || b.includes(a)) return true;
+  function lev(s: string, t: string) {
+    const d = Array.from({ length: s.length + 1 }, (_, i) => [i, ...Array(t.length).fill(0)]);
+    for (let j = 1; j <= t.length; j++) d[0][j] = j;
+    for (let i = 1; i <= s.length; i++) {
+      for (let j = 1; j <= t.length; j++) {
+        d[i][j] = Math.min(
+          d[i - 1][j] + 1,
+          d[i][j - 1] + 1,
+          d[i - 1][j - 1] + (s[i - 1] === t[j - 1] ? 0 : 1)
+        );
+      }
+    }
+    return d[s.length][t.length];
+  }
+  return lev(a, b) <= 2;
 }
 
 export default function NowPlaying() {
   const [error, setError] = useState('');
-  const [track, setTrack] = useState<any>(null);
-  const [dbSong, setDbSong] = useState<any>(null);
+  const [track, setTrack] = useState<any>(null); // Spotify track
+  const [matchedTrack, setMatchedTrack] = useState<any>(null); // Our Track
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
-  const [editingNotes, setEditingNotes] = useState(false);
-  const [notes, setNotes] = useState('');
-  const [saving, setSaving] = useState(false);
   const lastTrackId = useRef<string | null>(null);
   const [prevTrack, setPrevTrack] = useState<any>(null);
-  const [prevDbSong, setPrevDbSong] = useState<any>(null);
+  const [prevMatchedTrack, setPrevMatchedTrack] = useState<any>(null);
 
-  // SWR for songs
+  // SWR for tracks
   const fetcher = (url: string) => fetch(url).then(res => res.json());
-  const { data: songs = [], mutate: mutateSongs } = useSWR('/api/songs', fetcher, {
+  const { data: tracks = [] } = useSWR('/api/tracks', fetcher, {
     dedupingInterval: 3600000, // 1 hour
     revalidateOnFocus: false,
   });
@@ -56,32 +62,27 @@ export default function NowPlaying() {
       const data = await res.json();
       if (!data || data.playing === false || !data.item) {
         if (isInitial) setTrack(null);
-        if (isInitial) setDbSong(null);
+        if (isInitial) setMatchedTrack(null);
         if (isInitial) setInitialLoading(false);
         return;
       }
       // Only update if the track has changed
       if (lastTrackId.current !== data.item.id) {
-        if (editingNotes) {
-          // Don't update if editing notes
-          return;
-        }
         setPrevTrack(track);
-        setPrevDbSong(dbSong);
+        setPrevMatchedTrack(matchedTrack);
         setTrack(data.item);
         lastTrackId.current = data.item.id;
-        // Use SWR-cached songs
-        const match = songs.find((s: any) => s.spotifyLink && s.spotifyLink.includes(data.item.id));
-        setDbSong(match || null);
-        setNotes(match?.notes || '');
-        setEditingNotes(false);
+        // Fuzzy match against Track table
+        const spotifyTitle = data.item.name || data.item.title || '';
+        let match = tracks.find((t: any) => fuzzyMatch(t.title, spotifyTitle) || (t.searchAliases && t.searchAliases.some((alias: string) => fuzzyMatch(alias, spotifyTitle))));
+        setMatchedTrack(match || null);
       }
       if (isInitial) setInitialLoading(false);
     } catch (err: any) {
       setError('Failed to fetch currently playing track.');
       if (isInitial) setInitialLoading(false);
     }
-  }, [editingNotes, track, dbSong, songs]);
+  }, [track, matchedTrack, tracks]);
 
   useEffect(() => {
     fetchCurrentlyPlaying(true);
@@ -91,41 +92,6 @@ export default function NowPlaying() {
 
   const handleConnect = () => {
     window.location.href = '/api/spotify-proxy/login';
-  };
-
-  const handleRatingChange = async (newRating: number | null) => {
-    if (!dbSong) return;
-    setDbSong({ ...dbSong, rating: newRating });
-    try {
-      await fetch('/api/songs', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: dbSong.id, rating: newRating }),
-      });
-      mutateSongs();
-    } catch (err) {
-      setError('Could not save rating.');
-    }
-  };
-
-  const handleNoteSave = async () => {
-    if (!dbSong) return;
-    setSaving(true);
-    setError('');
-    try {
-      await fetch('/api/songs', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: dbSong.id, notes }),
-      });
-      setDbSong({ ...dbSong, notes });
-      setEditingNotes(false);
-      mutateSongs();
-    } catch (err) {
-      setError('Could not save notes.');
-    } finally {
-      setSaving(false);
-    }
   };
 
   return (
@@ -143,60 +109,32 @@ export default function NowPlaying() {
           </button>
         ) : !track ? (
           <p style={{ textAlign: 'center', color: '#aaa' }}>No track currently playing.</p>
-        ) : dbSong ? (
+        ) : matchedTrack ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            {dbSong.artworkUrl && (
-              <img src={dbSong.artworkUrl} alt={dbSong.title} style={{ width: 224, height: 224, borderRadius: 16, objectFit: 'cover', marginBottom: 24 }} />
+            <h2 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8, textAlign: 'center' }}>{matchedTrack.title}</h2>
+            <p style={{ fontSize: 22, marginBottom: 4, textAlign: 'center' }}>{matchedTrack.album?.title}</p>
+            <p style={{ fontSize: 16, marginBottom: 12, textAlign: 'center', color: '#bbb' }}>{matchedTrack.type}</p>
+            {matchedTrack.originalSong && (
+              <p style={{ fontSize: 16, marginBottom: 4, textAlign: 'center', color: '#bbb' }}>
+                <strong>Original Song:</strong> {matchedTrack.originalSong}
+              </p>
             )}
-            <h2 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8, textAlign: 'center' }}>{dbSong.title}</h2>
-            <p style={{ fontSize: 22, marginBottom: 4, textAlign: 'center' }}>{dbSong.artist}</p>
-            <p style={{ fontSize: 16, marginBottom: 12, textAlign: 'center', color: '#bbb' }}>{dbSong.album || track?.album?.name}</p>
-            <EditableStarRating rating={dbSong.rating} onRatingChange={handleRatingChange} size={40} />
-            <div
-              style={{ background: '#18181b', borderRadius: 8, padding: 16, width: '100%', minHeight: 60, marginTop: 8, color: '#fff', cursor: editingNotes ? 'auto' : 'text' }}
-              onClick={() => !editingNotes && setEditingNotes(true)}
-            >
-              {editingNotes ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  <textarea
-                    value={notes}
-                    onChange={e => setNotes(e.target.value)}
-                    style={{ width: '100%', padding: 8, borderRadius: 4, background: '#232326', color: '#fff', border: '1px solid #333', minHeight: 60 }}
-                    autoFocus
-                  />
-                  <button
-                    onClick={handleNoteSave}
-                    style={{ alignSelf: 'flex-end', padding: '4px 16px', background: '#333', color: '#fff', borderRadius: 4, border: 'none', cursor: 'pointer' }}
-                    disabled={saving}
-                  >{saving ? 'Saving...' : 'Save'}</button>
-                </div>
-              ) : (
-                <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                  <p style={{ whiteSpace: 'pre-wrap', flex: 1, color: dbSong.notes ? '#fff' : '#aaa' }}>{dbSong.notes || <em>No notes</em>}</p>
-                </div>
-              )}
-            </div>
+            {matchedTrack.originalArtist && (
+              <p style={{ fontSize: 16, marginBottom: 4, textAlign: 'center', color: '#bbb' }}>
+                <strong>Original Artist:</strong> {matchedTrack.originalArtist}
+              </p>
+            )}
           </div>
-        ) : null}
+        ) : (
+          <div style={{ textAlign: 'center', color: '#aaa' }}>No match found in discography.</div>
+        )}
         {error && <div style={{ color: '#ff6b6b', marginTop: 16, textAlign: 'center' }}>{error}</div>}
       </div>
       {/* Previous Song Card */}
-      {prevDbSong && prevTrack && !editingNotes && (
+      {prevMatchedTrack && prevTrack && (
         <div style={{ position: 'fixed', left: '50%', bottom: 32, transform: 'translateX(-50%)', background: '#232326', borderRadius: 12, boxShadow: '0 2px 8px #0008', padding: 12, minWidth: 220, minHeight: 48, zIndex: 100 }}>
-          <div style={{ textAlign: 'center', fontWeight: 600, color: '#bbb' }}>{prevDbSong.title}</div>
-          <div style={{ textAlign: 'center', fontSize: 14, color: '#aaa' }}>{prevDbSong.artist}</div>
-          <EditableStarRating
-            rating={typeof prevDbSong.rating === 'number' ? prevDbSong.rating : 0}
-            onRatingChange={async (newRating: number | null) => {
-              setPrevDbSong({ ...prevDbSong, rating: newRating });
-              await fetch('/api/songs', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: prevDbSong.id, rating: newRating }),
-              });
-            }}
-            size={28}
-          />
+          <div style={{ textAlign: 'center', fontWeight: 600, color: '#bbb' }}>{prevMatchedTrack.title}</div>
+          <div style={{ textAlign: 'center', fontSize: 14, color: '#aaa' }}>{prevMatchedTrack.album?.title}</div>
         </div>
       )}
     </div>

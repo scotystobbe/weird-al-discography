@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "../components/ui/input";
 import AlbumCard from "../components/AlbumCard";
-import SpotifyStatus from "../components/SpotifyStatus";
 
 export default function Browse() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -87,7 +86,6 @@ export default function Browse() {
       <h1 className="text-2xl font-extrabold text-center text-gray-900 dark:text-white mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
         Weird Al Discography
       </h1>
-      <SpotifyStatus />
       <div className="relative mb-4 flex items-center gap-x-4">
         <div className={`relative ${searchTerm ? 'flex-1' : ''} w-full`}>
           {/* Search icon inside input */}
