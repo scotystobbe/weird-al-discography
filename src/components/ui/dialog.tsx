@@ -39,7 +39,7 @@ export function DialogContent({ children, className = "", onClose }: DialogConte
       aria-modal="true"
     >
       <div
-        className={`rounded-2xl shadow-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 max-w-md w-full p-4 text-left ${className}`}
+        className={`rounded-2xl shadow-md bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 max-w-md w-full p-4 text-left ${className}`}
         onClick={e => e.stopPropagation()} // Prevent click inside dialog from closing
       >
         {children}

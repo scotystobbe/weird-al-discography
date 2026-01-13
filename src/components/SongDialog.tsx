@@ -20,7 +20,7 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
   const [showFeatured, setShowFeatured] = useState(false);
 
   return (
-    <div className={`relative p-6 text-left bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl transition-all ${large ? 'text-3xl p-12' : ''} ${large ? 'space-y-8' : 'space-y-2'}${!large ? ' pb-24' : ''}`}>
+    <div className={`relative p-6 text-left bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 rounded-xl transition-all ${large ? 'text-3xl p-12' : ''} ${large ? 'space-y-8' : 'space-y-2'}${!large ? ' pb-24' : ''}`}>
       {/* Album art in large mode */}
       {large && albumCover && (
         <div className="flex justify-center mb-6">
@@ -65,7 +65,7 @@ export default function SongDialog({ track, large = false, albumCover, onToggleL
                     href={`https://open.spotify.com/search/${encodeURIComponent(track.originalSong + ' ' + track.originalArtist)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-gray-300 text-gray-400 hover:bg-gray-400 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600 transition whitespace-nowrap mt-1 shadow"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-300 text-neutral-400 hover:bg-neutral-400 dark:bg-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 transition whitespace-nowrap mt-1 shadow"
                     title="Open Original in Spotify"
                     tabIndex={0}
                   >

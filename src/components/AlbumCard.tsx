@@ -60,7 +60,7 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
 
   return (
     <Card className="transition-shadow duration-200 hover:shadow-lg cursor-pointer">
-      <CardContent className="p-4 text-gray-900 dark:text-gray-100">
+      <CardContent className="p-4 text-neutral-900 dark:text-neutral-100">
         {/* Header: artwork, title, year, arrow */}
         <div
           className="flex items-center space-x-4 select-none"
@@ -76,14 +76,14 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
             className="w-16 h-16 rounded-xl object-cover"
           />
           <div className="flex-1">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
               {highlight(album.title)}
             </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">{album.year}</p>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">{album.year}</p>
           </div>
           {/* Arrow indicator */}
           <span
-            className="text-3xl text-gray-400 dark:text-gray-300 transition-transform duration-200 group-hover:text-gray-600 dark:group-hover:text-gray-100"
+            className="text-3xl text-neutral-400 dark:text-neutral-300 transition-transform duration-200 group-hover:text-neutral-600 dark:group-hover:text-neutral-100"
             aria-label={expanded ? 'Collapse' : 'Expand'}
           >
             {expanded ? '▾' : '▸'}
@@ -113,7 +113,7 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
                 <li key={idx}>
                   <button
                     onClick={e => { e.stopPropagation(); setSelectedTrack(track); }}
-                    className="text-left w-full rounded-lg px-3 py-2 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors border-0 outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-300"
+                    className="text-left w-full rounded-lg px-3 py-2 bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors border-0 outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-300"
                   >
                     {highlight(track.title)}
                   </button>
@@ -144,7 +144,7 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
             <div className="absolute bottom-6 right-6 flex items-center gap-6 z-30">
               {Array.isArray(selectedTrack.featuredSongs) && selectedTrack.featuredSongs.length > 0 && (
                 <button
-                  className="px-3 py-2 rounded-md bg-gray-300 text-gray-900 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition whitespace-nowrap"
+                  className="px-3 py-2 rounded-md bg-neutral-300 text-neutral-900 hover:bg-neutral-400 dark:bg-neutral-700 dark:text-white dark:hover:bg-neutral-600 transition whitespace-nowrap"
                   onClick={() => setShowFeatured(v => !v)}
                   aria-expanded={showFeatured}
                 >
@@ -163,7 +163,7 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
               </a>
               <button
                 onClick={() => setLargeDialog(l => !l)}
-                className="px-3 py-1 rounded-lg font-bold shadow border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition text-xl flex items-center gap-1"
+                className="px-3 py-1 rounded-lg font-bold shadow border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition text-xl flex items-center gap-1"
                 aria-label={largeDialog ? 'Show Smaller' : 'Show Larger'}
               >
                 <span className={`${largeDialog ? 'opacity-50' : 'opacity-100'} transition`}>A</span>
@@ -172,9 +172,9 @@ export default function AlbumCard({ album, searchTerm = "", trackSort = 'origina
             </div>
             {/* Show featured songs list if toggled */}
             {showFeatured && Array.isArray(selectedTrack.featuredSongs) && selectedTrack.featuredSongs.length > 0 && (
-              <ul className="absolute left-6 bottom-24 list-disc list-inside mt-2 space-y-1 bg-gray-50 dark:bg-gray-700 rounded-lg p-4 pr-6 z-40 shadow-lg max-h-60 overflow-y-auto">
+              <ul className="absolute left-6 bottom-24 list-disc list-inside mt-2 space-y-1 bg-neutral-50 dark:bg-neutral-700 rounded-lg p-4 pr-6 z-40 shadow-lg max-h-60 overflow-y-auto">
                 {selectedTrack.featuredSongs.map((song, i) => (
-                  <li key={i} className="text-gray-800 dark:text-gray-200">{song}</li>
+                  <li key={i} className="text-neutral-800 dark:text-neutral-200">{song}</li>
                 ))}
               </ul>
             )}

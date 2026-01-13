@@ -83,13 +83,13 @@ export default function Browse() {
 
   return (
     <div className="p-4 max-w-screen-md mx-auto">
-      <h1 className="text-2xl font-extrabold text-center text-gray-900 dark:text-white mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
+      <h1 className="text-2xl font-extrabold text-center text-neutral-900 dark:text-white mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
         Weird Al Discography
       </h1>
       <div className="relative mb-4 flex items-center gap-x-4">
         <div className={`relative ${searchTerm ? 'flex-1' : ''} w-full`}>
           {/* Search icon inside input */}
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
             </svg>
@@ -104,7 +104,7 @@ export default function Browse() {
             <button
               type="button"
               onClick={() => setSearchTerm("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 focus:outline-none"
               aria-label="Clear search"
               tabIndex={0}
             >
@@ -119,11 +119,11 @@ export default function Browse() {
           <button
             type="button"
             onClick={() => setShowFilters(f => !f)}
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none"
+            className="p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:outline-none"
             aria-label="Show sorting options"
           >
             {/* Inline sort_icon.svg, theme-aware color */}
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6 text-gray-500 dark:text-gray-300" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6 text-neutral-500 dark:text-neutral-300" fill="currentColor">
               <path d="M9.25,5L12.5,1.75L15.75,5H9.25M15.75,19L12.5,22.25L9.25,19H15.75M8.89,14.3H6L5.28,17H2.91L6,7H9L12.13,17H9.67L8.89,14.3M6.33,12.68H8.56L7.93,10.56L7.67,9.59L7.42,8.63H7.39L7.17,9.6L6.93,10.58L6.33,12.68M13.05,17V15.74L17.8,8.97V8.91H13.5V7H20.73V8.34L16.09,15V15.08H20.8V17H13.05Z" />
             </svg>
           </button>
@@ -133,14 +133,14 @@ export default function Browse() {
         <div className="flex gap-4 mb-4">
           <label className="flex items-center gap-2 text-sm">
             Album Sort:
-            <select value={albumSort} onChange={e => setAlbumSort(e.target.value as 'year' | 'alpha')} className="border rounded px-2 py-1 bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700">
+            <select value={albumSort} onChange={e => setAlbumSort(e.target.value as 'year' | 'alpha')} className="border rounded px-2 py-1 bg-white text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700">
               <option value="year">Year</option>
               <option value="alpha">A-Z</option>
             </select>
           </label>
           <label className="flex items-center gap-2 text-sm">
             Track Sort:
-            <select value={trackSort} onChange={e => setTrackSort(e.target.value as 'original' | 'alpha')} className="border rounded px-2 py-1 bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700">
+            <select value={trackSort} onChange={e => setTrackSort(e.target.value as 'original' | 'alpha')} className="border rounded px-2 py-1 bg-white text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700">
               <option value="original">Original</option>
               <option value="alpha">A-Z</option>
             </select>
