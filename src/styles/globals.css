@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  background-color: #18181b;
+}
 
 body {
   @apply bg-white text-neutral-900 font-sans antialiased dark:bg-neutral-900 dark:text-neutral-100;
+  background-color: #18181b;
 }
 
 button {
